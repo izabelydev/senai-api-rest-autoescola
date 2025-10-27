@@ -1,6 +1,8 @@
 # SENAI API REST autoescola
 
-### Configuracoes do projeto:
+---
+
+### Configurações do projeto:
 
 | Tecnologia | Versao |
 |------------|--------|
@@ -8,9 +10,29 @@
 | Maven      | 4.0.0  |
 | SpringBoot | 3.5.6  |
 
+---
+
+### Configurar conexão com banco de dados
+
+Versao MySQL: mysql-installer-web-community-8.0.43.0
+
+Nome do banco de dados: dbnautoescolan321
+
+Porta: 3306
+
+Variaveis de ambiente:
+
+```
+DBN_USER=seu_usuario;
+DBN_PASSWORD=sua_senha;
+```
+
+---
+
 ### Cadastrar Instrutor
 
-Metodo POST: http://localhost:8085/instrutores/cadastrar
+Com o Insomnia ou PostMan usar o método POST na rota abaixo:
+http://localhost:8085/instrutores/cadastrar
 
 Body: 
 ``` json
@@ -30,3 +52,6 @@ Body:
 	}
 }
 ```
+
+---
+
