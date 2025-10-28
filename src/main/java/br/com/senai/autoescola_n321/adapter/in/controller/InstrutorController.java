@@ -1,7 +1,10 @@
-package br.com.senai.autoescola_n321.controller;
+package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.entity.instrutor.DadosCadastroInstrutor;
+import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosCadastroInstrutor;
+import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrutor;
+import br.com.senai.autoescola_n321.adapter.out.domain.repository.InstrutorRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/instrutores")
 public class InstrutorController {
 
+    @Autowired
+    private InstrutorRepository instrutorRepository;
+
     @PostMapping("/cadastrar")
     public void cadastrarInstrutor(@RequestBody @Valid DadosCadastroInstrutor dados) {
-        System.out.printf(dados.especialidade().toString());
+        instrutorRepository.save(new Instrutor(dados));
     }
 }

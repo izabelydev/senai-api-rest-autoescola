@@ -23,6 +23,7 @@ Porta: 3306
 Variaveis de ambiente:
 
 ```
+DBN_URL=jdbc:mysql://localhost/dbnautoescolan321;
 DBN_USER=seu_usuario;
 DBN_PASSWORD=sua_senha;
 ```

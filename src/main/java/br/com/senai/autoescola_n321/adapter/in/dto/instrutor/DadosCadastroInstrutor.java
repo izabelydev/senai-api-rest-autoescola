@@ -1,7 +1,7 @@
-package br.com.senai.autoescola_n321.entity.instrutor;
+package br.com.senai.autoescola_n321.adapter.in.dto.instrutor;
 
-import br.com.senai.autoescola_n321.entity.endereco.DadosEndereco;
-import br.com.senai.autoescola_n321.entity.instrutor.enums.Especialidade;
+import br.com.senai.autoescola_n321.adapter.in.dto.endereco.DadosEndereco;
+import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.enums.Especialidade;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

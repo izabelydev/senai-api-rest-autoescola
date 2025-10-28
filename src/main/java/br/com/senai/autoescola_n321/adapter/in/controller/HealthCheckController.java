@@ -1,4 +1,4 @@
-package br.com.senai.autoescola_n321.controller;
+package br.com.senai.autoescola_n321.adapter.in.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
