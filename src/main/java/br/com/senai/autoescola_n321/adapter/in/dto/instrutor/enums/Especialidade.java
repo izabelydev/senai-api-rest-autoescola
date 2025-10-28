@@ -4,6 +4,5 @@ public enum Especialidade {
     MOTOS,
     CARROS,
     VANS,
-    CAMINHOES,
     CAMINHÕES
 }
