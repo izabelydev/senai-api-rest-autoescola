@@ -38,10 +38,11 @@ http://localhost:8085/instrutores/cadastrar
 ```
 
 **Body**: 
-``` json
+```json
 {
 	"nome": "Carlos Eduardo",
 	"email": "carlosoliver@autoescola.com.br",
+	"telefone": "(11) 91234-5678",
 	"cnh": "01234567890",
 	"especialidade": "CARROS",
 	"endereco": {
@@ -75,3 +76,41 @@ Mas caso queira mudar esse comportamento, use a url abaixo com os parametros per
 http://localhost:8085/instrutores/listar-instrutores?sort=nome&page=0&size=10
 ```
 
+### Atualizar cadastro do instrutor
+
+**Regra de negocio**: permite atualizar somente nome, telefone, especialidade e endereco (email e cnh nao sera incluso)
+**Obrigatoriedades**: 
+    - Somente o campo id e obrigatorio
+    - Caso atualize o endereco, todos os campos do mesmo sao obrigatórios
+
+**Exemplo 1:**
+```json
+{
+	"id": 14,
+	"telefone": "(11) 91234-5678"
+}
+```
+
+**Exemplo 2:**
+```json
+{
+  "endereco": {
+    "cep": "03346000",
+    "logradouro": "Rua Ibó",
+    "numero": "300",
+    "bairro": "Vila Regente Feijó",
+    "complemento": "Apto. 91",
+    "cidade": "São Paulo",
+    "uf": "SP"
+  }
+}
+```
+
+### Apagar cadastro do instrutor
+
+Faz com que o cadastro fique inativo.
+Substitua `{id}` pelo numero do id do instrutor:
+
+```
+http://localhost:8085/instrutores/apagar-instrutor/{id}
+```
