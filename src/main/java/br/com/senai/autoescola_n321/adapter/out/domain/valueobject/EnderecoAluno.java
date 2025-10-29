@@ -1,6 +1,5 @@
 package br.com.senai.autoescola_n321.adapter.out.domain.valueobject;
 
-import static java.util.Objects.isNull;
 import br.com.senai.autoescola_n321.adapter.in.dto.endereco.DadosEndereco;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -13,30 +12,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class Endereco {
+public class EnderecoAluno {
 
-    @Column(name = "ins_end_lgd")
+    @Column(name = "alu_end_lgd")
     private String logradouro;
 
-    @Column(name = "ins_end_bai")
+    @Column(name = "alu_end_bai")
     private String bairro;
 
-    @Column(name = "ins_end_uf")
+    @Column(name = "alu_end_uf")
     private String uf;
 
-    @Column(name = "ins_end_cid")
+    @Column(name = "alu_end_cid")
     private String cidade;
 
-    @Column(name = "ins_end_cep")
+    @Column(name = "alu_end_cep")
     private String cep;
 
-    @Column(name = "ins_end_cmp")
+    @Column(name = "alu_end_cmp")
     private String complemento;
 
-    @Column(name = "ins_end_num")
+    @Column(name = "alu_end_num")
     private String numero;
 
-    public Endereco(DadosEndereco dados) {
+    public EnderecoAluno(DadosEndereco dados) {
         this.logradouro = dados.logradouro();
         this.numero = dados.numero();
         this.complemento = dados.complemento();

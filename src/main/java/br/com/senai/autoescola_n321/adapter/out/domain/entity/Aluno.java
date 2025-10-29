@@ -1,15 +1,12 @@
 package br.com.senai.autoescola_n321.adapter.out.domain.entity;
 
 import static java.util.Objects.isNull;
-import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosAtualizacaoInstrutor;
-import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosCadastroInstrutor;
-import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.enums.Especialidade;
-import br.com.senai.autoescola_n321.adapter.out.domain.valueobject.EnderecoInstrutor;
+import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosAtualizacaoAluno;
+import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosCadastroAluno;
+import br.com.senai.autoescola_n321.adapter.out.domain.valueobject.EnderecoAluno;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,59 +19,50 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tb_ins")
-@Entity(name = "Instrutor")
+@Table(name = "tb_alu")
+@Entity(name = "Aluno")
 @EqualsAndHashCode(of = "id")
-public class Instrutor {
+public class Aluno {
 
     @Id
-    @Column(name = "ins_id")
+    @Column(name = "alu_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ins_atv")
+    @Column(name = "alu_atv")
     private Boolean ativo;
 
-    @Column(name = "ins_nm")
+    @Column(name = "alu_nm")
     private String nome;
 
-    @Column(name = "ins_eml")
+    @Column(name = "alu_eml")
     private String email;
 
-    @Column(name = "ins_tel")
+    @Column(name = "alu_tel")
     private String telefone;
 
-    @Column(name = "ins_cnh")
-    private String cnh;
-
-    @Column(name = "ins_esp")
-    @Enumerated(EnumType.STRING)
-    private Especialidade especialidade;
+    @Column(name = "alu_cpf")
+    private String cpf;
 
     @Embedded
-    private EnderecoInstrutor endereco;
+    private EnderecoAluno endereco;
 
-    public Instrutor(DadosCadastroInstrutor dados) {
+    public Aluno(DadosCadastroAluno dados) {
         this.ativo = true;
         this.nome = dados.nome();
         this.email = dados.email();
         this.telefone = dados.telefone();
-        this.cnh = dados.cnh();
-        this.especialidade = dados.especialidade();
-        this.endereco = new EnderecoInstrutor(dados.endereco());
+        this.cpf = dados.cpf();
+        this.endereco = new EnderecoAluno(dados.endereco());
     }
 
-    public void atualizarInformacoes(DadosAtualizacaoInstrutor dados) {
+    public void atualizarInformacoes(DadosAtualizacaoAluno dados) {
         if (!isNull(dados.nome())) {
             this.nome = dados.nome();
         }
 
         if (!isNull(dados.telefone())) {
             this.telefone = dados.telefone();
-        }
-
-        if (!isNull(dados.especialidade())) {
-            this.especialidade = dados.especialidade();
         }
 
         if (!isNull(dados.endereco())) {

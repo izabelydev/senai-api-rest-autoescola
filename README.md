@@ -30,6 +30,9 @@ DBN_PASSWORD=sua_senha;
 
 ---
 
+# Instrutor
+
+---
 ### Cadastrar Instrutor
 
 Com o Insomnia ou PostMan usar o método POST na rota abaixo:
@@ -61,7 +64,8 @@ http://localhost:8085/instrutores/cadastrar
 
 ### Listar instrutores
 
-Com o Insomnia ou PostMan usar o método GET na rota abaixo:
+**Método**: GET
+
 ```
 http://localhost:8085/instrutores/listar-instrutores
 ```
@@ -78,11 +82,15 @@ http://localhost:8085/instrutores/listar-instrutores?sort=nome&page=0&size=10
 
 ### Atualizar cadastro do instrutor
 
+**Método**: PUT
 **Regra de negocio**: permite atualizar somente nome, telefone, especialidade e endereco (email e cnh nao sera incluso)
 **Obrigatoriedades**: 
     - Somente o campo id e obrigatorio
-    - Caso atualize o endereco, todos os campos do mesmo sao obrigatórios
+    - Caso atualize o endereco, somente complemento e numero nao sao obrigatórios
 
+```
+http://localhost:8085/alunos/atualizar-cadastro
+```
 **Exemplo 1:**
 ```json
 {
@@ -99,7 +107,6 @@ http://localhost:8085/instrutores/listar-instrutores?sort=nome&page=0&size=10
     "logradouro": "Rua Ibó",
     "numero": "300",
     "bairro": "Vila Regente Feijó",
-    "complemento": "Apto. 91",
     "cidade": "São Paulo",
     "uf": "SP"
   }
@@ -108,9 +115,55 @@ http://localhost:8085/instrutores/listar-instrutores?sort=nome&page=0&size=10
 
 ### Apagar cadastro do instrutor
 
-Faz com que o cadastro fique inativo.
+**Método**: DELETE
+Faz com que o cadastro do instrutor fique inativo.
 Substitua `{id}` pelo numero do id do instrutor:
 
 ```
 http://localhost:8085/instrutores/apagar-instrutor/{id}
+```
+
+---
+
+# Aluno
+
+---
+
+As mesmas regras acima se repetem para os alunos, abaixo segue a listagem com os paths usados para alunos:
+
+### Cadastrar Aluno
+
+Com o Insomnia ou PostMan usar o método POST na rota abaixo:
+```
+http://localhost:8085/alunos/cadastrar
+```
+
+### Listar alunos
+
+**Método**: GET
+
+```
+http://localhost:8085/alunos/listar-alunos
+```
+
+### Atualizar cadastro do aluno
+
+**Método**: PUT
+**Regra de negocio**: permite atualizar somente nome, telefone e endereco (email e cpf nao sera incluso)
+**Obrigatoriedades**:
+- Somente o campo id e obrigatorio
+- Caso atualize o endereco, somente complemento e numero nao sao obrigatórios
+
+```
+http://localhost:8085/alunos/atualizar-cadastro
+```
+
+### Apagar cadastro do instrutor
+
+**Método**: DELETE
+Faz com que o cadastro do aluno fique inativo.
+Substitua `{id}` pelo numero do id do aluno:
+
+```
+http://localhost:8085/alunos/apagar-aluno/{id}
 ```
