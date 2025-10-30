@@ -158,7 +158,7 @@ http://localhost:8085/alunos/listar-alunos
 http://localhost:8085/alunos/atualizar-cadastro
 ```
 
-### Apagar cadastro do instrutor
+### Apagar cadastro do aluno
 
 **Método**: DELETE
 Faz com que o cadastro do aluno fique inativo.
