@@ -1,9 +1,8 @@
-package br.com.senai.autoescola_n321.entity.instrutor.enums;
+package br.com.senai.autoescola_n321.adapter.in.dto.instrutor.enums;
 
 public enum Especialidade {
     MOTOS,
     CARROS,
     VANS,
-    CAMINHOES,
     CAMINHÕES
 }
