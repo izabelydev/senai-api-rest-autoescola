@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InstrutorRepository extends JpaRepository<Instrutor, Long> {
     Page<Instrutor> findAllByAtivoTrue(Pageable paginacao);
+
+    Instrutor findByIdAndAtivoTrue(Long id);
 }
