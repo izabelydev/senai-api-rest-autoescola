@@ -84,6 +84,7 @@ http://localhost:8085/instrutores/listar-instrutores?sort=nome&page=0&size=10
 
 **Método**: PUT
 **Regra de negocio**: permite atualizar somente nome, telefone, especialidade e endereco (email e cnh nao sera incluso)
+**Observacao**: apaga somente instrutores ativos
 **Obrigatoriedades**: 
     - Somente o campo id e obrigatorio
     - Caso atualize o endereco, somente complemento e numero nao sao obrigatórios
