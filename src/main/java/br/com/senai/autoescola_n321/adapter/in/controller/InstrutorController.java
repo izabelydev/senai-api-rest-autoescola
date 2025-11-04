@@ -7,6 +7,7 @@ import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosDetalhamentoIn
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosListagemInstrutor;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrutor;
 import br.com.senai.autoescola_n321.adapter.out.domain.repository.InstrutorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class InstrutorController {
     ) {
         Instrutor instrutor = new Instrutor(dados);
         instrutorRepository.save(instrutor);
-        URI uri = uriBuilder.path("/instrutor/{id}").buildAndExpand(instrutor.getId()).toUri();
+        URI uri = uriBuilder.path("/instrutores/instrutor/{id}").buildAndExpand(instrutor.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoInstrutor(instrutor));
     }
 
@@ -60,11 +61,6 @@ public class InstrutorController {
             @RequestBody @Valid DadosAtualizacaoInstrutor dados
     ) {
         Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(dados.id());
-
-        if(isNull(instrutor)) {
-            return ResponseEntity.unprocessableEntity().body("Instrutor inativo");
-        }
-
         instrutor.atualizarInformacoes(dados);
         return ResponseEntity.ok().body(new DadosDetalhamentoInstrutor(instrutor));
     }
@@ -75,5 +71,11 @@ public class InstrutorController {
         Instrutor instrutor = instrutorRepository.getReferenceById(id);
         instrutor.apagar();
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/instrutor/{id}")
+    public ResponseEntity detalharInstrutor(@PathVariable Long id) {
+        Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(id);
+        return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
     }
 }
