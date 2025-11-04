@@ -17,8 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_alu")
 @Entity(name = "Aluno")
 @EqualsAndHashCode(of = "id")

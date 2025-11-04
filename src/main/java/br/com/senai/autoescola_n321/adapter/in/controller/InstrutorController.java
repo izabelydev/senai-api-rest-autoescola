@@ -1,13 +1,11 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import static java.util.Objects.isNull;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosAtualizacaoInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosCadastroInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosDetalhamentoInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosListagemInstrutor;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrutor;
 import br.com.senai.autoescola_n321.adapter.out.domain.repository.InstrutorRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +55,12 @@ public class InstrutorController {
 
     @Transactional
     @PutMapping("/atualizar-cadastro")
-    public ResponseEntity atualizarInstrutor(
+    public ResponseEntity<DadosDetalhamentoInstrutor> atualizarInstrutor(
             @RequestBody @Valid DadosAtualizacaoInstrutor dados
     ) {
         Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(dados.id());
         instrutor.atualizarInformacoes(dados);
-        return ResponseEntity.ok().body(new DadosDetalhamentoInstrutor(instrutor));
+        return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
     }
 
     @Transactional
@@ -74,7 +72,7 @@ public class InstrutorController {
     }
 
     @GetMapping("/instrutor/{id}")
-    public ResponseEntity detalharInstrutor(@PathVariable Long id) {
+    public ResponseEntity<DadosDetalhamentoInstrutor> detalharInstrutor(@PathVariable Long id) {
         Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(id);
         return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
     }

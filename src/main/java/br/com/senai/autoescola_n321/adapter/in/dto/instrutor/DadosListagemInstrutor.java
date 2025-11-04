@@ -3,7 +3,6 @@ package br.com.senai.autoescola_n321.adapter.in.dto.instrutor;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.enums.Especialidade;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrutor;
 
-
 public record DadosListagemInstrutor(
 		Long id,
 		String nome,
