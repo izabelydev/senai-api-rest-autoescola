@@ -23,9 +23,10 @@
 **Variaveis de ambiente**:
 
 ```
-DBN_URL=jdbc:mysql://localhost/dbnautoescolan321;
-DBN_USER=seu_usuario;
-DBN_PASSWORD=sua_senha;
+DBN_URL=jdbc:mysql://localhost/dbnautoescolan321
+DBN_USER=seu_usuario
+DBN_PASSWORD=sua_senha
+JWT_SECRET=12345678
 ```
 
 ---
