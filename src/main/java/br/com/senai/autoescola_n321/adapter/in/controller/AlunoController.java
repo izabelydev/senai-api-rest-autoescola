@@ -4,7 +4,7 @@ import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosAtualizacaoAluno;
 import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosCadastroAluno;
 import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosListagemAluno;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Aluno;
-import br.com.senai.autoescola_n321.adapter.out.domain.repository.AlunoRepository;
+import br.com.senai.autoescola_n321.adapter.out.repository.AlunoRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

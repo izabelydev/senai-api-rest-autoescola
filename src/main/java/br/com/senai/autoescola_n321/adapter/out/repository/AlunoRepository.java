@@ -1,4 +1,4 @@
-package br.com.senai.autoescola_n321.adapter.out.domain.repository;
+package br.com.senai.autoescola_n321.adapter.out.repository;
 
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Aluno;
 import org.springframework.data.domain.Page;
