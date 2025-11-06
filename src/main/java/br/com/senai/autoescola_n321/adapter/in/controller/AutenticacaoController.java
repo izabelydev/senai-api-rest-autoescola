@@ -1,7 +1,7 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAutenticacao;
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosTokenJwt;
+import br.com.senai.autoescola_n321.adapter.in.dto.autenticacao.DadosAutenticacao;
+import br.com.senai.autoescola_n321.adapter.in.dto.autenticacao.DadosTokenJwt;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Usuario;
 import br.com.senai.autoescola_n321.service.TokenService;
 import jakarta.validation.Valid;

@@ -62,6 +62,7 @@ public class InstrutorController {
         Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(dados.id())
                 .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado ou inativo"));;
         instrutor.atualizarInformacoes(dados);
+        instrutorRepository.save(instrutor);
         return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
     }
 
@@ -70,6 +71,7 @@ public class InstrutorController {
     public ResponseEntity<Void> apagarInstrutor(@PathVariable Long id) {
         Instrutor instrutor = instrutorRepository.getReferenceById(id);
         instrutor.apagar();
+        instrutorRepository.save(instrutor);
         return ResponseEntity.noContent().build();
     }
 

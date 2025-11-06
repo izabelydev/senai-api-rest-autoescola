@@ -1,6 +1,7 @@
 package br.com.senai.autoescola_n321.adapter.out.domain.entity;
 
-import br.com.senai.autoescola_n321.adapter.out.domain.enums.Perfil;
+import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosCadastramentoUsuario;
+import br.com.senai.autoescola_n321.adapter.in.dto.usuario.enums.Perfil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,9 +41,15 @@ public class Usuario implements UserDetails {
     @Column(name = "usu_sn")
     private String senha;
 
-    @Column(name = "usu_pfl")
+    @Column(name = "usu_pfl", nullable = false)
     @Enumerated(EnumType.STRING)
     private Perfil perfil;
+
+    public Usuario(DadosCadastramentoUsuario dados, BCryptPasswordEncoder passwordEncoder) {
+        this.login = dados.login();
+        this.senha = passwordEncoder.encode(dados.senha());
+        this.perfil = dados.perfil() != null ? dados.perfil() : Perfil.USER;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
