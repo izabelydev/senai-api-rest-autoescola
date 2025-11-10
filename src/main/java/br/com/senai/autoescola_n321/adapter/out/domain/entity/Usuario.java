@@ -1,5 +1,8 @@
 package br.com.senai.autoescola_n321.adapter.out.domain.entity;
 
+import static java.util.Objects.isNull;
+
+import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.dto.usuario.enums.Perfil;
 import jakarta.persistence.Column;
@@ -10,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -44,6 +48,9 @@ public class Usuario implements UserDetails {
     @Column(name = "usu_pfl", nullable = false)
     @Enumerated(EnumType.STRING)
     private Perfil perfil;
+
+    @Column(name = "usu_atv")
+    private Boolean ativo;
 
     public Usuario(DadosCadastramentoUsuario dados, BCryptPasswordEncoder passwordEncoder) {
         this.login = dados.login();
@@ -84,5 +91,23 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void atualizarInformacoes(@Valid DadosAtualizacaoUsuario dados) {
+        if(!isNull(dados.login())) {
+            this.login = dados.login();
+        }
+
+        if(!isNull(dados.senha())) {
+            this.login = dados.senha();
+        }
+
+        if(!isNull(dados.perfil())) {
+            this.perfil = dados.perfil();
+        }
+    }
+
+    public void apagar() {
+        this.ativo = false;
     }
 }
