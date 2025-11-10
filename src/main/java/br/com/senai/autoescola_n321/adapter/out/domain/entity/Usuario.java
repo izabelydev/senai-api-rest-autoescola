@@ -2,7 +2,8 @@ package br.com.senai.autoescola_n321.adapter.out.domain.entity;
 
 import static java.util.Objects.isNull;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoUsuario;
+import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoPerfilUsuario;
+import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoSenhaUsuario;
 import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.dto.usuario.enums.Perfil;
 import jakarta.persistence.Column;
@@ -93,17 +94,15 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    public void atualizarInformacoes(@Valid DadosAtualizacaoUsuario dados) {
-        if(!isNull(dados.login())) {
-            this.login = dados.login();
-        }
-
-        if(!isNull(dados.senha())) {
-            this.login = dados.senha();
-        }
-
+    public void atualizarPerfil(@Valid DadosAtualizacaoPerfilUsuario dados) {
         if(!isNull(dados.perfil())) {
             this.perfil = dados.perfil();
+        }
+    }
+
+    public void atualizarSenha(@Valid DadosAtualizacaoSenhaUsuario dados, BCryptPasswordEncoder passwordEncoder) {
+        if(!isNull(dados.novaSenha())) {
+            this.senha = passwordEncoder.encode(dados.novaSenha());
         }
     }
 

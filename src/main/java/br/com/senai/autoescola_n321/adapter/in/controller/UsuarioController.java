@@ -1,6 +1,7 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoUsuario;
+import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoPerfilUsuario;
+import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoSenhaUsuario;
 import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosDetalhamentoUsuario;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Usuario;
@@ -13,13 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,15 +61,32 @@ public class UsuarioController {
     }
 
     @Transactional
-    @PutMapping("/atualizar-cadastro")
-    public ResponseEntity<DadosDetalhamentoUsuario> atualizarUsuario (
-            @RequestBody @Valid DadosAtualizacaoUsuario dados
+    @PatchMapping("/atualizar-perfil")
+    public ResponseEntity<DadosDetalhamentoUsuario> atualizarPerfil (
+            @RequestBody @Valid DadosAtualizacaoPerfilUsuario dados
     ) {
         Usuario usuario = usuarioRepository.findByIdAndAtivoTrue(dados.id())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado ou inativo"));
-        usuario.atualizarInformacoes(dados);
+        usuario.atualizarPerfil(dados);
         usuarioRepository.save(usuario);
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
+    }
+
+    @Transactional
+    @PatchMapping("/atualizar-senha")
+    public ResponseEntity<String> atualizarSenha (
+            @RequestBody @Valid DadosAtualizacaoSenhaUsuario dados
+    ) {
+        Usuario usuario = usuarioRepository.findByIdAndAtivoTrue(dados.id())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado ou inativo"));
+
+        if(!passwordEncoder.matches(dados.senhaAtual(), usuario.getSenha())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Senha incorreta");
+        }
+
+        usuario.atualizarSenha(dados, passwordEncoder);
+        usuarioRepository.save(usuario);
+        return ResponseEntity.ok("Senha atualizada com sucesso");
     }
 
     @Transactional
