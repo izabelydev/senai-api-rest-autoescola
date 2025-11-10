@@ -65,8 +65,7 @@ public class UsuarioController {
     public ResponseEntity<DadosDetalhamentoUsuario> atualizarPerfil (
             @RequestBody @Valid DadosAtualizacaoPerfilUsuario dados
     ) {
-        Usuario usuario = usuarioRepository.findByIdAndAtivoTrue(dados.id())
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado ou inativo"));
+        Usuario usuario = getUsuario(dados.id());
         usuario.atualizarPerfil(dados);
         usuarioRepository.save(usuario);
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
@@ -77,8 +76,7 @@ public class UsuarioController {
     public ResponseEntity<String> atualizarSenha (
             @RequestBody @Valid DadosAtualizacaoSenhaUsuario dados
     ) {
-        Usuario usuario = usuarioRepository.findByIdAndAtivoTrue(dados.id())
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado ou inativo"));
+        Usuario usuario = getUsuario(dados.id());
 
         if(!passwordEncoder.matches(dados.senhaAtual(), usuario.getSenha())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Senha incorreta");
@@ -92,8 +90,7 @@ public class UsuarioController {
     @Transactional
     @DeleteMapping("/apagar-usuario/{id}")
     public ResponseEntity<Void> apagarUsuario (@PathVariable Long id) {
-        Usuario usuario = usuarioRepository.findByIdAndAtivoTrue(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado ou inativo"));
+        Usuario usuario = getUsuario(id);
         usuario.apagar();
         usuarioRepository.save(usuario);
         return ResponseEntity.noContent().build();
@@ -105,5 +102,10 @@ public class UsuarioController {
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
+    }
+
+    private Usuario getUsuario(Long id) {
+        return usuarioRepository.findByIdAndAtivoTrue(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado ou inativo"));
     }
 }

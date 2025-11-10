@@ -59,8 +59,7 @@ public class InstrutorController {
     public ResponseEntity<DadosDetalhamentoInstrutor> atualizarInstrutor (
             @RequestBody @Valid DadosAtualizacaoInstrutor dados
     ) {
-        Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(dados.id())
-                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado ou inativo"));
+        Instrutor instrutor = getInstrutor(dados.id());
         instrutor.atualizarInformacoes(dados);
         instrutorRepository.save(instrutor);
         return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
@@ -69,8 +68,7 @@ public class InstrutorController {
     @Transactional
     @DeleteMapping("/apagar-instrutor/{id}")
     public ResponseEntity<Void> apagarInstrutor(@PathVariable Long id) {
-        Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(id)
-                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado ou inativo"));;
+        Instrutor instrutor = getInstrutor(id);
         instrutor.apagar();
         instrutorRepository.save(instrutor);
         return ResponseEntity.noContent().build();
@@ -81,5 +79,10 @@ public class InstrutorController {
         Instrutor instrutor = instrutorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado"));
         return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
+    }
+
+    private Instrutor getInstrutor(Long id) {
+        return instrutorRepository.findByIdAndAtivoTrue(id)
+                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado ou inativo"));
     }
 }
