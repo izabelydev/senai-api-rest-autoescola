@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,7 @@ import java.net.URI;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/usuario")
+@PreAuthorize("hasAnyRole('OWNER', 'ADM')")
 public class UsuarioController {
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -73,10 +76,11 @@ public class UsuarioController {
 
     @Transactional
     @PatchMapping("/atualizar-senha")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<String> atualizarSenha (
             @RequestBody @Valid DadosAtualizacaoSenhaUsuario dados
     ) {
-        Usuario usuario = getUsuario(dados.id());
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(!passwordEncoder.matches(dados.senhaAtual(), usuario.getSenha())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Senha incorreta");
