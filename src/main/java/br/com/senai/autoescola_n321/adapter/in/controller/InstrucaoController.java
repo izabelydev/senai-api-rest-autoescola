@@ -1,11 +1,13 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosAgendamentoInstrucao;
+import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosCancelamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosDetalhamentoInstrucao;
 import br.com.senai.autoescola_n321.service.AgendaInstrucoesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +25,13 @@ public class InstrucaoController {
             @Valid @RequestBody DadosAgendamentoInstrucao dados
     ) {
         return ResponseEntity.ok(agendaInstrucoesService.agendar(dados));
+    }
+
+    @DeleteMapping("/cancelar")
+    public ResponseEntity<Void> cancelarInstrucao(
+            @Valid @RequestBody DadosCancelamentoInstrucao dados
+    ) {
+        agendaInstrucoesService.cancelar(dados);
+        return ResponseEntity.noContent().build();
     }
 }

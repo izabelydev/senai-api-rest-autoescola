@@ -3,6 +3,10 @@ package br.com.senai.autoescola_n321.adapter.out.repository;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrucao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public class InstrucaoRepository extends JpaRepository<Instrucao, Long> {
+import java.time.LocalDateTime;
 
+public interface InstrucaoRepository extends JpaRepository<Instrucao, Long> {
+    Instrucao findByAlunoIdAndCanceladaFalse();
+
+    Boolean existsByInstrutorIdAndDataAndCanceladaFalse(Long aLong, LocalDateTime data);
 }
