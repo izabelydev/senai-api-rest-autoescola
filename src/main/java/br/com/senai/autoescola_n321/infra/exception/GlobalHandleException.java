@@ -1,6 +1,6 @@
-package br.com.senai.autoescola_n321.infra;
+package br.com.senai.autoescola_n321.infra.exception;
 
-import br.com.senai.autoescola_n321.infra.dto.DadosBadRequest;
+import br.com.senai.autoescola_n321.infra.exception.dto.DadosBadRequest;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

@@ -5,7 +5,8 @@ import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosCadastroInstru
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosDetalhamentoInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosListagemInstrutor;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrutor;
-import br.com.senai.autoescola_n321.adapter.out.domain.repository.InstrutorRepository;
+import br.com.senai.autoescola_n321.adapter.out.repository.InstrutorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,25 +56,33 @@ public class InstrutorController {
 
     @Transactional
     @PutMapping("/atualizar-cadastro")
-    public ResponseEntity<DadosDetalhamentoInstrutor> atualizarInstrutor(
+    public ResponseEntity<DadosDetalhamentoInstrutor> atualizarInstrutor (
             @RequestBody @Valid DadosAtualizacaoInstrutor dados
     ) {
-        Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(dados.id());
+        Instrutor instrutor = getInstrutor(dados.id());
         instrutor.atualizarInformacoes(dados);
+        instrutorRepository.save(instrutor);
         return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
     }
 
     @Transactional
     @DeleteMapping("/apagar-instrutor/{id}")
     public ResponseEntity<Void> apagarInstrutor(@PathVariable Long id) {
-        Instrutor instrutor = instrutorRepository.getReferenceById(id);
+        Instrutor instrutor = getInstrutor(id);
         instrutor.apagar();
+        instrutorRepository.save(instrutor);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/instrutor/{id}")
     public ResponseEntity<DadosDetalhamentoInstrutor> detalharInstrutor(@PathVariable Long id) {
-        Instrutor instrutor = instrutorRepository.findByIdAndAtivoTrue(id);
+        Instrutor instrutor = instrutorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado"));
         return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
+    }
+
+    private Instrutor getInstrutor(Long id) {
+        return instrutorRepository.findByIdAndAtivoTrue(id)
+                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado ou inativo"));
     }
 }
