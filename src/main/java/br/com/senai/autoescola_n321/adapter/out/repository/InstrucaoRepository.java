@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 
 public interface InstrucaoRepository extends JpaRepository<Instrucao, Long> {
-    Instrucao findByAlunoIdAndCanceladaFalse();
 
     Boolean existsByInstrutorIdAndDataAndCanceladaFalse(Long aLong, LocalDateTime data);
+
+    Boolean existsByAlunoIdAndDataAndCanceladaFalse(Long aLong, LocalDateTime data);
 }
