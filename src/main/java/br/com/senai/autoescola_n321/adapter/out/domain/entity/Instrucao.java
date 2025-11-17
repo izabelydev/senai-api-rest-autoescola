@@ -1,6 +1,7 @@
 package br.com.senai.autoescola_n321.adapter.out.domain.entity;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosAgendamentoInstrucao;
+import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosCancelamentoInstrucao;
+import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.enums.MotivoCancelamento;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,8 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,6 +37,9 @@ public class Instrucao {
     @Column(name = "itc_can")
     private Boolean cancelada = false;
 
+    @Column(name = "itc_can_mot")
+    private MotivoCancelamento motivo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "itc_alu_id")
     private Aluno aluno;
@@ -45,4 +47,9 @@ public class Instrucao {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "itc_ins_id")
     private Instrutor instrutor;
+
+    public void cancelar(DadosCancelamentoInstrucao dados) {
+        this.cancelada = true;
+        this.motivo = dados.motivo();
+    }
 }

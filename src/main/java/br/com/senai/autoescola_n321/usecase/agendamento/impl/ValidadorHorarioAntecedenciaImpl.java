@@ -1,15 +1,15 @@
-package br.com.senai.autoescola_n321.usecase.validacoes.impl;
+package br.com.senai.autoescola_n321.usecase.agendamento.impl;
 
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosAgendamentoInstrucao;
 import br.com.senai.autoescola_n321.infra.exception.ValidacaoException;
-import br.com.senai.autoescola_n321.usecase.validacoes.ValidacoesUseCase;
+import br.com.senai.autoescola_n321.usecase.agendamento.ValidacoesAgendamentoUseCase;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Component
-public class ValidadorHorarioAntecedenciaImpl implements ValidacoesUseCase {
+public class ValidadorHorarioAntecedenciaImpl implements ValidacoesAgendamentoUseCase {
 
     @Override
     public void validar(DadosAgendamentoInstrucao dados) {

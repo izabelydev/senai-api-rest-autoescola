@@ -10,10 +10,13 @@ import br.com.senai.autoescola_n321.adapter.out.repository.InstrucaoRepository;
 import br.com.senai.autoescola_n321.adapter.out.repository.InstrutorRepository;
 import br.com.senai.autoescola_n321.infra.exception.AlunoNaoExisteException;
 import br.com.senai.autoescola_n321.infra.exception.InstrutorIndisponivelException;
-import br.com.senai.autoescola_n321.usecase.validacoes.ValidacoesUseCase;
+import br.com.senai.autoescola_n321.infra.exception.ValidacaoException;
+import br.com.senai.autoescola_n321.usecase.agendamento.ValidacoesAgendamentoUseCase;
+import br.com.senai.autoescola_n321.usecase.cancelamento.ValidacoesCancelamentoUseCase;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +40,10 @@ public class AgendaInstrucoesService {
     private AlunoRepository alunoRepository;
 
     @Autowired
-    private List<ValidacoesUseCase> validacoesUseCase;
+    private List<ValidacoesAgendamentoUseCase> validacoesAgendamentoUseCases;
+
+    @Autowired
+    private List<ValidacoesCancelamentoUseCase> validacoesCancelamentoUseCases;
 
     @Transactional
     public DadosDetalhamentoInstrucao agendar(DadosAgendamentoInstrucao dados) {
@@ -51,12 +57,13 @@ public class AgendaInstrucoesService {
                                                          + dados.data().toString())
         );
 
-        validacoesUseCase.forEach(v -> v.validar(dados));
+        validacoesAgendamentoUseCases.forEach(v -> v.validar(dados));
 
         Instrucao instrucao = new Instrucao (
                 null,
                 dados.data(),
                 false,
+                null,
                 alunoService.getAluno(dados.idAluno()),
                 instrutor
         );
@@ -67,6 +74,16 @@ public class AgendaInstrucoesService {
     }
 
     public void cancelar(DadosCancelamentoInstrucao dados) {
+        Instrucao instrucao = instrucaoRepository.findByIdAndCanceladaFalse(dados.id())
+                .orElseThrow(() -> new ValidacaoException("Nenhuma instrução encontrada."));
 
+        validacoesCancelamentoUseCases.forEach(v -> v.validar(instrucao));
+
+        instrucao.cancelar(dados);
+        instrucaoRepository.save(instrucao);
+    }
+
+    public Page<DadosDetalhamentoInstrucao> listar(Pageable paginacao) {
+        return instrucaoRepository.findAllByCanceladaFalse(paginacao).map(DadosDetalhamentoInstrucao::new);
     }
 }

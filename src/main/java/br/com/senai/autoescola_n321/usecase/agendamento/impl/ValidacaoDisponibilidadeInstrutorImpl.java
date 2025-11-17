@@ -1,14 +1,14 @@
-package br.com.senai.autoescola_n321.usecase.validacoes.impl;
+package br.com.senai.autoescola_n321.usecase.agendamento.impl;
 
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosAgendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.out.repository.InstrucaoRepository;
 import br.com.senai.autoescola_n321.infra.exception.ValidacaoException;
-import br.com.senai.autoescola_n321.usecase.validacoes.ValidacoesUseCase;
+import br.com.senai.autoescola_n321.usecase.agendamento.ValidacoesAgendamentoUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidacaoDisponibilidadeInstrutorImpl implements ValidacoesUseCase {
+public class ValidacaoDisponibilidadeInstrutorImpl implements ValidacoesAgendamentoUseCase {
 
     @Autowired
     private InstrucaoRepository instrucaoRepository;
