@@ -1,7 +1,7 @@
 package br.com.senai.autoescola_n321.usecase.agendamento.impl;
 
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosAgendamentoInstrucao;
-import br.com.senai.autoescola_n321.infra.exception.ValidacaoException;
+import br.com.senai.autoescola_n321.infra.exception.validation.ValidacaoException;
 import br.com.senai.autoescola_n321.usecase.agendamento.ValidacoesAgendamentoUseCase;
 import org.springframework.stereotype.Component;
 
