@@ -1,4 +1,4 @@
-package br.com.senai.autoescola_n321.service;
+package br.com.senai.autoescola_n321.service.auth;
 
 import br.com.senai.autoescola_n321.adapter.out.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

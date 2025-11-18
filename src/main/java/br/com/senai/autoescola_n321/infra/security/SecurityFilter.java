@@ -3,7 +3,7 @@ package br.com.senai.autoescola_n321.infra.security;
 import static java.util.Objects.isNull;
 
 import br.com.senai.autoescola_n321.adapter.out.repository.UsuarioRepository;
-import br.com.senai.autoescola_n321.service.TokenService;
+import br.com.senai.autoescola_n321.service.auth.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

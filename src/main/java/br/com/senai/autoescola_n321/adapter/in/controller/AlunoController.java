@@ -1,6 +1,5 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosAtualizacaoAluno;
 import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosCadastroAluno;
 import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosListagemAluno;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Aluno;
@@ -11,39 +10,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/alunos")
 public class AlunoController {
 
     @Autowired
-    private AlunoRepository alunoRepository;
+    private static AlunoRepository alunoRepository;
 
     @Transactional
     @PostMapping("/cadastrar")
-    public void cadastrarAluno(@RequestBody @Valid DadosCadastroAluno dados) {
+    public ResponseEntity<DadosListagemAluno> cadastrarAluno(
+            @RequestBody @Valid DadosCadastroAluno dados,
+            UriComponentsBuilder uriBuilder
+    ) {
+        Aluno aluno = new Aluno(dados);
         alunoRepository.save(new Aluno(dados));
+        URI uri = uriBuilder.path("/alunos/aluno/{id}").buildAndExpand(aluno.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DadosListagemAluno(aluno));
     }
 
     @GetMapping("/listar-alunos")
-    public Page<DadosListagemAluno> listarAlunos(@PageableDefault(size=5, sort={"nome"}) Pageable paginacao) {
-        return alunoRepository.findAllByAtivoTrue(paginacao).map(DadosListagemAluno::new);
+    public ResponseEntity<Page<DadosListagemAluno>> listarAlunos(
+            @PageableDefault(size=5, sort={"nome"}) Pageable paginacao
+    ) {
+        Page<DadosListagemAluno> page = alunoRepository.findAllByAtivoTrue(paginacao)
+                .map(DadosListagemAluno::new);
+        return ResponseEntity.ok(page);
     }
 
-    @Transactional
-    @PutMapping("/atualizar-cadastro")
-    public void atualizarAluno(@RequestBody @Valid DadosAtualizacaoAluno dados) {
-        Aluno aluno = alunoRepository.getReferenceById(dados.id());
-        aluno.atualizarInformacoes(dados);
-    }
+//    @Transactional
+//    @PutMapping("/atualizar-cadastro")
+//    public void atualizarAluno(
+//            @RequestBody @Valid DadosAtualizacaoAluno dados
+//    ) {
+//        Aluno aluno = getALuno(dados.id());
+//        Aluno aluno = alunoRepository.getReferenceById(dados.id());
+//        aluno.atualizarInformacoes(dados);
+//    }
+
+
 
     @Transactional
     @DeleteMapping("/apagar-aluno/{id}")
