@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "instrucao")
+@Entity(name = "Instrucao")
 @Table(name = "tb_itc")
 @EqualsAndHashCode(of = "id")
 public class Instrucao {

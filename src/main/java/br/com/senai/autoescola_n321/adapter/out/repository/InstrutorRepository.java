@@ -20,7 +20,7 @@ public interface InstrutorRepository extends JpaRepository<Instrutor, Long> {
             WHERE i.ativo = true
                 AND i.especialidade = :especialidade
                 AND i.id NOT IN (
-                    SELECT a.instrutor.id
+                    SELECT a.instrutor.id FROM Instrucao a
                     WHERE a.data = :data
                         AND a.cancelada = false
                 )

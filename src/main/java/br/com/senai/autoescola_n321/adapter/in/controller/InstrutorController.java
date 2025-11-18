@@ -35,7 +35,7 @@ public class InstrutorController {
     private InstrutorService instrutorService;
 
     @Autowired
-    private static InstrutorRepository instrutorRepository;
+    private InstrutorRepository instrutorRepository;
 
     @Transactional
     @PostMapping("/cadastrar")

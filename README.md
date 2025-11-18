@@ -6,7 +6,7 @@
 
 | Tecnologia | Versao |
 |------------|--------|
-| Java       | 25.0.1 |
+| Java       | 23.0.1 |
 | Maven      | 4.0.0  |
 | SpringBoot | 3.5.6  |
 
