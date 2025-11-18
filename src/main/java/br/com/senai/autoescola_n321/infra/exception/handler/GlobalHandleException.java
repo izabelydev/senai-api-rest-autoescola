@@ -2,7 +2,6 @@ package br.com.senai.autoescola_n321.infra.exception.handler;
 
 import br.com.senai.autoescola_n321.infra.exception.business.AlunoNaoExisteException;
 import br.com.senai.autoescola_n321.infra.exception.business.EspecialidadeNaoInformadaException;
-import br.com.senai.autoescola_n321.infra.exception.business.IdNaoExisteException;
 import br.com.senai.autoescola_n321.infra.exception.business.InstrucaoNaoExisteException;
 import br.com.senai.autoescola_n321.infra.exception.business.InstrutorIndisponivelException;
 import br.com.senai.autoescola_n321.infra.exception.business.InstrutorNaoExisteException;
@@ -63,11 +62,6 @@ public class GlobalHandleException {
 
     @ExceptionHandler(EspecialidadeNaoInformadaException.class)
     public ResponseEntity handleEspecialidadeNaoInformadaException(EspecialidadeNaoInformadaException e) {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
-    }
-
-    @ExceptionHandler(IdNaoExisteException.class)
-    public ResponseEntity handleIdNaoExisteException(IdNaoExisteException e) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
     }
 
