@@ -2,7 +2,9 @@ package br.com.senai.autoescola_n321.adapter.in.controller;
 
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosAgendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosCancelamentoInstrucao;
+import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosDetalhamentoCancelamento;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosDetalhamentoInstrucao;
+import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosDetalhamentoReagendamento;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosReagendamentoInstrucao;
 import br.com.senai.autoescola_n321.service.AgendaInstrucoesService;
 import jakarta.transaction.Transactional;
@@ -37,20 +39,18 @@ public class InstrucaoController {
 
     @Transactional
     @DeleteMapping("/cancelar")
-    public ResponseEntity<Void> cancelarInstrucao(
+    public ResponseEntity<DadosDetalhamentoCancelamento> cancelarInstrucao(
             @Valid @RequestBody DadosCancelamentoInstrucao dados
     ) {
-        agendaInstrucoesService.cancelar(dados);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(agendaInstrucoesService.cancelar(dados));
     }
 
     @Transactional
     @PutMapping("/reagendar")
-    public ResponseEntity<DadosDetalhamentoInstrucao> reagendarInstrucao(
+    public ResponseEntity<DadosDetalhamentoReagendamento> reagendarInstrucao(
             @Valid @RequestBody DadosReagendamentoInstrucao dados
     ) {
-        agendaInstrucoesService.cancelar(dados.cancelamentoInstrucao());
-        return ResponseEntity.ok(agendaInstrucoesService.agendar(dados.agendamentoInstrucao()));
+        return ResponseEntity.ok().body(agendaInstrucoesService.reagendar(dados));
     }
 
     @GetMapping("/ver-instrucoes")

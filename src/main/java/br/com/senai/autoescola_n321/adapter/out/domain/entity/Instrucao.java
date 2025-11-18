@@ -34,6 +34,9 @@ public class Instrucao {
     @Column(name = "itc_dt")
     private LocalDateTime data;
 
+    @Column(name = "itc_dt_can")
+    private LocalDateTime dataCancelamento;
+
     @Column(name = "itc_can")
     private Boolean cancelada = false;
 
