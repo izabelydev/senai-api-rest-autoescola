@@ -1,9 +1,9 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosCadastroAluno;
-import br.com.senai.autoescola_n321.adapter.in.dto.aluno.DadosListagemAluno;
-import br.com.senai.autoescola_n321.adapter.out.domain.entity.Aluno;
-import br.com.senai.autoescola_n321.adapter.out.repository.AlunoRepository;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.aluno.DadosCadastroAluno;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno.DadosListagemAluno;
+import br.com.senai.autoescola_n321.application.core.domain.model.Aluno;
+import br.com.senai.autoescola_n321.adapter.out.repository.persistence.AlunoRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

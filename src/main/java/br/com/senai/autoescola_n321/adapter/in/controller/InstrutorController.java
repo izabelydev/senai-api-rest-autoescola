@@ -1,12 +1,12 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosAtualizacaoInstrutor;
-import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosCadastroInstrutor;
-import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosDetalhamentoInstrutor;
-import br.com.senai.autoescola_n321.adapter.in.dto.instrutor.DadosListagemInstrutor;
-import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrutor;
-import br.com.senai.autoescola_n321.adapter.out.repository.InstrutorRepository;
-import br.com.senai.autoescola_n321.service.InstrutorService;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.DadosAtualizacaoInstrutor;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.DadosCadastroInstrutor;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosDetalhamentoInstrutor;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosListagemInstrutor;
+import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
+import br.com.senai.autoescola_n321.adapter.out.repository.persistence.InstrutorRepository;
+import br.com.senai.autoescola_n321.application.core.usecase.InstrutorService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
