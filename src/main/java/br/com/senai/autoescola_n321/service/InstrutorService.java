@@ -5,7 +5,7 @@ import static java.util.Objects.isNull;
 import br.com.senai.autoescola_n321.adapter.in.dto.instrucao.DadosAgendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.out.domain.entity.Instrutor;
 import br.com.senai.autoescola_n321.adapter.out.repository.InstrutorRepository;
-import br.com.senai.autoescola_n321.infra.exception.EspecialidadeNaoInformadaException;
+import br.com.senai.autoescola_n321.infra.exception.business.EspecialidadeNaoInformadaException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

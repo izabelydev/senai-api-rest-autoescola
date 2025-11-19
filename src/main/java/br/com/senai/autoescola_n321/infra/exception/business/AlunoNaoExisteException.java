@@ -1,4 +1,4 @@
-package br.com.senai.autoescola_n321.infra.exception;
+package br.com.senai.autoescola_n321.infra.exception.business;
 
 public class AlunoNaoExisteException extends RuntimeException {
     public AlunoNaoExisteException(String message) {
