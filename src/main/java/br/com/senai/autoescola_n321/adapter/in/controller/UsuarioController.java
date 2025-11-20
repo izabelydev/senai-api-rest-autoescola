@@ -5,9 +5,8 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.Da
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario.DadosDetalhamentoUsuario;
 import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioRepository;
+import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioJpaRepository;
 import br.com.senai.autoescola_n321.exception.types.business.UsuarioNaoExisteException;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -41,7 +40,7 @@ public class UsuarioController {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioJpaRepository;
 
     @Transactional
     @PostMapping("/cadastrar")
@@ -50,7 +49,7 @@ public class UsuarioController {
             UriComponentsBuilder uriBuilder
     ) {
         Usuario usuario = new Usuario(dados, passwordEncoder);
-        usuarioRepository.save(usuario);
+        usuarioJpaRepository.save(usuario);
         URI uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuario(usuario));
     }
@@ -59,7 +58,7 @@ public class UsuarioController {
     public ResponseEntity<Page<DadosDetalhamentoUsuario>> listarUsuarios (
             @PageableDefault(size=5, sort={"login"}) Pageable paginacao
     ) {
-        Page<DadosDetalhamentoUsuario> page = usuarioRepository.findAllByAtivoTrue(paginacao)
+        Page<DadosDetalhamentoUsuario> page = usuarioJpaRepository.findAllByAtivoTrue(paginacao)
                 .map(DadosDetalhamentoUsuario::new);
         return ResponseEntity.ok(page);
     }
@@ -71,7 +70,7 @@ public class UsuarioController {
     ) {
         Usuario usuario = getUsuario(dados.id());
         usuario.atualizarPerfil(dados);
-        usuarioRepository.save(usuario);
+        usuarioJpaRepository.save(usuario);
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
     }
 
@@ -88,7 +87,7 @@ public class UsuarioController {
         }
 
         usuario.atualizarSenha(dados, passwordEncoder);
-        usuarioRepository.save(usuario);
+        usuarioJpaRepository.save(usuario);
         return ResponseEntity.ok("Senha atualizada com sucesso");
     }
 
@@ -97,20 +96,20 @@ public class UsuarioController {
     public ResponseEntity<Void> apagarUsuario (@PathVariable Long id) {
         Usuario usuario = getUsuario(id);
         usuario.apagar();
-        usuarioRepository.save(usuario);
+        usuarioJpaRepository.save(usuario);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoUsuario> detalharUsuario (@PathVariable Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
+        Usuario usuario = usuarioJpaRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNaoExisteException("Usuário não encontrado"));
 
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
     }
 
     private Usuario getUsuario(Long id) {
-        return usuarioRepository.findByIdAndAtivoTrue(id)
+        return usuarioJpaRepository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new UsuarioNaoExisteException("Usuário não encontrado ou inativo"));
     }
 }

@@ -1,6 +1,6 @@
 package br.com.senai.autoescola_n321.infra.security.auth;
 
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioRepository;
+import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 public class AutenticacaoService implements UserDetailsService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioJpaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByLogin(username);
+        return usuarioJpaRepository.findByLogin(username);
     }
 }

@@ -2,7 +2,7 @@ package br.com.senai.autoescola_n321.infra.security;
 
 import static java.util.Objects.isNull;
 
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioRepository;
+import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioJpaRepository;
 import br.com.senai.autoescola_n321.infra.security.auth.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioJpaRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -35,7 +35,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if(!isNull(token)) {
             String subject = tokenService.getSubject(token);
-            UserDetails usuario = usuarioRepository.findByLogin(subject);
+            UserDetails usuario = usuarioJpaRepository.findByLogin(subject);
             UsernamePasswordAuthenticationToken autenticacao =
                     new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 

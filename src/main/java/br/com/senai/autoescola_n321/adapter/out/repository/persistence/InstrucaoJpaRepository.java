@@ -1,14 +1,17 @@
 package br.com.senai.autoescola_n321.adapter.out.repository.persistence;
 
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrucaoEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Instrucao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public interface InstrucaoRepository extends JpaRepository<Instrucao, Long> {
+@Repository
+public interface InstrucaoJpaRepository extends JpaRepository<InstrucaoEntity, Long> {
 
     Boolean existsByInstrutorIdAndDataAndCanceladaFalse(Long id, LocalDateTime data);
 

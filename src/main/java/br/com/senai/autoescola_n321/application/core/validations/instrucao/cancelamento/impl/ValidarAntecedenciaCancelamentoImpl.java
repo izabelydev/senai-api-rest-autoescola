@@ -1,7 +1,7 @@
 package br.com.senai.autoescola_n321.application.core.validations.instrucao.cancelamento.impl;
 
 import br.com.senai.autoescola_n321.application.core.domain.model.Instrucao;
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.InstrucaoRepository;
+import br.com.senai.autoescola_n321.adapter.out.repository.persistence.InstrucaoJpaRepository;
 import br.com.senai.autoescola_n321.exception.types.validation.ValidacaoException;
 import br.com.senai.autoescola_n321.application.core.validations.instrucao.cancelamento.ValidacoesCancelamento;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class ValidarAntecedenciaCancelamentoImpl implements ValidacoesCancelamento {
 
     @Autowired
-    private InstrucaoRepository instrucaoRepository;
+    private InstrucaoJpaRepository instrucaoJpaRepository;
 
     @Override
     public void validar(Instrucao instrucao) {

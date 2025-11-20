@@ -1,14 +1,14 @@
 package br.com.senai.autoescola_n321.application.core.domain.vo;
 
-import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.endereco.DadosEndereco;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
@@ -34,24 +34,4 @@ public class EnderecoAluno {
 
     @Column(name = "alu_end_num")
     private String numero;
-
-    public EnderecoAluno(DadosEndereco dados) {
-        this.logradouro = dados.logradouro();
-        this.numero = dados.numero();
-        this.complemento = dados.complemento();
-        this.bairro = dados.bairro();
-        this.cidade = dados.cidade();
-        this.uf = dados.uf();
-        this.cep = dados.cep();
-    }
-
-    public void atualizarInformacoes(@Valid DadosEndereco dados) {
-        this.logradouro = dados.logradouro();
-        this.numero = dados.numero();
-        this.complemento = dados.complemento();
-        this.bairro = dados.bairro();
-        this.cidade = dados.cidade();
-        this.uf = dados.uf();
-        this.cep = dados.cep();
-    }
 }
