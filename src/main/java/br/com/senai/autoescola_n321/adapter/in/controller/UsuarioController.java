@@ -1,11 +1,12 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoPerfilUsuario;
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosAtualizacaoSenhaUsuario;
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosCadastramentoUsuario;
-import br.com.senai.autoescola_n321.adapter.in.dto.usuario.DadosDetalhamentoUsuario;
-import br.com.senai.autoescola_n321.adapter.out.domain.entity.Usuario;
-import br.com.senai.autoescola_n321.adapter.out.repository.UsuarioRepository;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosAtualizacaoPerfilUsuario;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosAtualizacaoSenhaUsuario;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosCadastramentoUsuario;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario.DadosDetalhamentoUsuario;
+import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
+import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioRepository;
+import br.com.senai.autoescola_n321.exception.types.business.UsuarioNaoExisteException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -103,13 +104,13 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoUsuario> detalharUsuario (@PathVariable Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoExisteException("Usuário não encontrado"));
 
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
     }
 
     private Usuario getUsuario(Long id) {
         return usuarioRepository.findByIdAndAtivoTrue(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado ou inativo"));
+                .orElseThrow(() -> new UsuarioNaoExisteException("Usuário não encontrado ou inativo"));
     }
 }

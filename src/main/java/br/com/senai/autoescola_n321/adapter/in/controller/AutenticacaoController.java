@@ -1,9 +1,9 @@
 package br.com.senai.autoescola_n321.adapter.in.controller;
 
-import br.com.senai.autoescola_n321.adapter.in.dto.autenticacao.DadosAutenticacao;
-import br.com.senai.autoescola_n321.adapter.in.dto.autenticacao.DadosTokenJwt;
-import br.com.senai.autoescola_n321.adapter.out.domain.entity.Usuario;
-import br.com.senai.autoescola_n321.service.auth.TokenService;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.autenticacao.DadosAutenticacao;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.autenticacao.DadosTokenJwt;
+import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
+import br.com.senai.autoescola_n321.infra.security.auth.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
