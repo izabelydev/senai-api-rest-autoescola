@@ -1,5 +1,6 @@
 package br.com.senai.autoescola_n321.adapter.out.repository.persistence;
 
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrucaoEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Instrucao;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ public interface InstrucaoJpaRepository extends JpaRepository<InstrucaoEntity, L
 
     Boolean existsByAlunoIdAndDataBetweenAndCanceladaFalse(Long id, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim);
 
-    Optional<Instrucao> findByIdAndCanceladaFalse(Long id);
+    Optional<InstrucaoEntity> findByIdAndCanceladaFalse(Long id);
 
-    Page<Instrucao> findAllByCanceladaFalse(Pageable paginacao);
+    Optional<Page<DadosDetalhamentoInstrucao>> findAllByCanceladaFalse(Pageable paginacao);
 }

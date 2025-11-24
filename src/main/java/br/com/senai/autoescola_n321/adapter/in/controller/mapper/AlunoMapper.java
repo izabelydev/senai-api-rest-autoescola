@@ -5,7 +5,7 @@ import static java.util.Objects.isNull;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.aluno.DadosAtualizacaoAluno;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.aluno.DadosCadastroAluno;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno.DadosListagemAluno;
-import br.com.senai.autoescola_n321.application.core.domain.model.Aluno;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.AlunoEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,8 +17,8 @@ public class AlunoMapper {
         this.mapper = mapper;
     }
 
-    public Aluno toEntity(DadosCadastroAluno dados) {
-        return new Aluno(
+    public AlunoEntity toEntity(DadosCadastroAluno dados) {
+        return new AlunoEntity (
                 null,
                 true,
                 dados.nome(),
@@ -29,7 +29,7 @@ public class AlunoMapper {
         );
     }
 
-    public DadosListagemAluno toDto(Aluno dados) {
+    public DadosListagemAluno toDto(AlunoEntity dados) {
         return new DadosListagemAluno(
                 dados.getId(),
                 dados.getNome(),
@@ -38,7 +38,7 @@ public class AlunoMapper {
         );
     }
 
-    public void atualizarDtoToEntity(DadosAtualizacaoAluno dados, Aluno aluno) {
+    public void atualizarDtoToEntity(DadosAtualizacaoAluno dados, AlunoEntity aluno) {
         if (!isNull(dados.nome())) {
             aluno.setNome(dados.nome());
         }

@@ -8,6 +8,7 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosDetalhamentoInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosListagemInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.mapper.InstrutorMapper;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrutorEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
 import br.com.senai.autoescola_n321.application.ports.out.InstrutorRepository;
 import br.com.senai.autoescola_n321.exception.types.business.EspecialidadeNaoInformadaException;
@@ -31,7 +32,7 @@ public class InstrutorService {
 
     @Transactional
     public DadosDetalhamentoInstrutor cadastrar(DadosCadastroInstrutor dados) {
-        Instrutor instrutor = instrutorMapper.toEntity(dados);
+        InstrutorEntity instrutor = instrutorMapper.toEntity(dados);
         instrutorRepository.save(instrutor);
         return instrutorMapper.toDetailsDto(instrutor);
     }
@@ -42,7 +43,7 @@ public class InstrutorService {
 
     @Transactional
     public DadosDetalhamentoInstrutor atualizar(DadosAtualizacaoInstrutor dados) {
-        Instrutor instrutor = getInstrutor(dados.id());
+        InstrutorEntity instrutor = getInstrutor(dados.id());
         instrutorMapper.atualizarDtoToEntity(dados, instrutor);
         instrutorRepository.save(instrutor);
         return instrutorMapper.toDetailsDto(instrutor);
@@ -50,7 +51,7 @@ public class InstrutorService {
 
     @Transactional
     public DadosDetalhamentoInstrutor apagar(Long id) {
-        Instrutor instrutor = getInstrutor(id);
+        InstrutorEntity instrutor = getInstrutor(id);
         instrutor.setAtivo(false);
         instrutorRepository.save(instrutor);
         return instrutorMapper.toDetailsDto(instrutor);
@@ -61,7 +62,7 @@ public class InstrutorService {
                 .orElseThrow(() -> new InstrutorNaoExisteException("Instrutor não existe.")));
     }
 
-    public Instrutor escolherInstrutor(DadosAgendamentoInstrucao dados) {
+    public InstrutorEntity escolherInstrutor(DadosAgendamentoInstrucao dados) {
         if(!isNull(dados.idInstrutor())) {
             return getInstrutor(dados.idInstrutor());
         }
@@ -75,7 +76,7 @@ public class InstrutorService {
                         "Nenhum instrutor com horário disponível para a data: " + dados.data().toString()));
     }
 
-    public Instrutor getInstrutor(Long id) {
+    public InstrutorEntity getInstrutor(Long id) {
         return instrutorRepository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new InstrutorNaoExisteException("Instrutor não encontrado ou inativo"));
     }

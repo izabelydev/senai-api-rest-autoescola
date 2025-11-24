@@ -14,9 +14,9 @@ import java.util.Optional;
 
 @Repository
 public interface InstrutorJpaRepository extends JpaRepository<InstrutorEntity, Long> {
-    Page<Instrutor> findAllByAtivoTrue(Pageable paginacao);
+    Page<InstrutorEntity> findAllByAtivoTrue(Pageable paginacao);
 
-    Optional<Instrutor> findByIdAndAtivoTrue(Long id);
+    Optional<InstrutorEntity> findByIdAndAtivoTrue(Long id);
 
     @Query("""
             SELECT i FROM Instrutor i
@@ -29,5 +29,5 @@ public interface InstrutorJpaRepository extends JpaRepository<InstrutorEntity, L
                 )
             ORDER BY RAND() LIMIT 1
             """)
-    Optional<Instrutor> escolherInstrutorDisponivel(Especialidade especialidade, LocalDateTime data);
+    Optional<InstrutorEntity> escolherInstrutorDisponivel(Especialidade especialidade, LocalDateTime data);
 }

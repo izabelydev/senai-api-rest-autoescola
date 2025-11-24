@@ -1,7 +1,7 @@
 package br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao;
 
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrucaoEntity;
 import br.com.senai.autoescola_n321.application.core.domain.enums.Especialidade;
-import br.com.senai.autoescola_n321.application.core.domain.model.Instrucao;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ public record DadosDetalhamentoInstrucao(
         @JsonFormat(pattern = "dd/mm/yyyy HH:mm")
         LocalDateTime data
 ) {
-    public DadosDetalhamentoInstrucao(Instrucao instrucao) {
+    public DadosDetalhamentoInstrucao(InstrucaoEntity instrucao) {
         this(
                 instrucao.getId(),
                 instrucao.getAluno().getNome(),

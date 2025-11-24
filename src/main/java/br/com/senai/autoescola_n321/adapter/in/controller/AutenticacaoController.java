@@ -2,6 +2,7 @@ package br.com.senai.autoescola_n321.adapter.in.controller;
 
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.autenticacao.DadosAutenticacao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.autenticacao.DadosTokenJwt;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.UsuarioEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
 import br.com.senai.autoescola_n321.infra.security.auth.TokenService;
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class AutenticacaoController {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         Authentication auth = manager.authenticate(token);
 
-        String tokenJwt = tokenService.gerarToken((Usuario) auth.getPrincipal());
+        String tokenJwt = tokenService.gerarToken((UsuarioEntity) auth.getPrincipal());
         return ResponseEntity.ok(new DadosTokenJwt(tokenJwt));
     }
 }

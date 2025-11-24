@@ -20,8 +20,8 @@ public class InstrutorEntityMapper {
         );
     }
 
-    public Instrutor toDomain(InstrutorEntity domain) {
-        return new Instrutor (
+    public InstrutorEntity toDomain(InstrutorEntity domain) {
+        return new InstrutorEntity (
                 domain.getId(),
                 domain.getAtivo(),
                 domain.getNome(),

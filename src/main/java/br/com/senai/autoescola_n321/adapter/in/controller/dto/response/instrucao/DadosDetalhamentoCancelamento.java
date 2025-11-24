@@ -1,7 +1,7 @@
 package br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao;
 
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrucaoEntity;
 import br.com.senai.autoescola_n321.application.core.domain.enums.MotivoCancelamento;
-import br.com.senai.autoescola_n321.application.core.domain.model.Instrucao;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ public record DadosDetalhamentoCancelamento(
 
         MotivoCancelamento motivoCancelamento
 ) {
-    public DadosDetalhamentoCancelamento(Instrucao instrucao) {
+    public DadosDetalhamentoCancelamento(InstrucaoEntity instrucao) {
         this(
                 instrucao.getId(),
                 instrucao.getDataCancelamento(),

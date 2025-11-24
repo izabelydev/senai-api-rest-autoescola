@@ -6,6 +6,7 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.DadosCadastroInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosDetalhamentoInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosListagemInstrutor;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrutorEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,8 @@ public class InstrutorMapper {
     }
 
 
-    public Instrutor toEntity(DadosCadastroInstrutor dados) {
-        return new Instrutor(
+    public InstrutorEntity toEntity(DadosCadastroInstrutor dados) {
+        return new InstrutorEntity (
                 null,
                 true,
                 dados.nome(),
@@ -32,7 +33,7 @@ public class InstrutorMapper {
         );
     }
 
-    public DadosDetalhamentoInstrutor toDetailsDto(Instrutor dados) {
+    public DadosDetalhamentoInstrutor toDetailsDto(InstrutorEntity dados) {
         return new DadosDetalhamentoInstrutor(
                 dados.getId(),
                 dados.getAtivo(),
@@ -45,7 +46,7 @@ public class InstrutorMapper {
         );
     }
 
-    public DadosListagemInstrutor toListDto(Instrutor dados) {
+    public DadosListagemInstrutor toListDto(InstrutorEntity dados) {
         return new DadosListagemInstrutor(
                 dados.getId(),
                 dados.getNome(),
@@ -55,7 +56,7 @@ public class InstrutorMapper {
         );
     }
 
-    public void atualizarDtoToEntity(DadosAtualizacaoInstrutor dados, Instrutor instrutor) {
+    public void atualizarDtoToEntity(DadosAtualizacaoInstrutor dados, InstrutorEntity instrutor) {
         if (!isNull(dados.nome())) {
             instrutor.setNome(dados.nome());
         }

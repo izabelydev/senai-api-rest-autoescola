@@ -1,5 +1,6 @@
 package br.com.senai.autoescola_n321.application.core.usecase;
 
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.AlunoEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Aluno;
 import br.com.senai.autoescola_n321.adapter.out.repository.persistence.AlunoJpaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,7 +14,7 @@ public class AlunoService {
     @Autowired
     private static AlunoJpaRepository alunoJpaRepository;
 
-    public Aluno getAluno(@NotNull Long id) {
+    public AlunoEntity getAluno(@NotNull Long id) {
         return alunoJpaRepository.findAllByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado ou inativo"));
     }

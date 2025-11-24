@@ -4,7 +4,7 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.Da
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosAtualizacaoSenhaUsuario;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario.DadosDetalhamentoUsuario;
-import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.UsuarioEntity;
 import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioJpaRepository;
 import br.com.senai.autoescola_n321.exception.types.business.UsuarioNaoExisteException;
 import jakarta.transaction.Transactional;
@@ -48,7 +48,7 @@ public class UsuarioController {
             @RequestBody @Valid DadosCadastramentoUsuario dados,
             UriComponentsBuilder uriBuilder
     ) {
-        Usuario usuario = new Usuario(dados, passwordEncoder);
+        UsuarioEntity usuario = new UsuarioEntity(dados, passwordEncoder);
         usuarioJpaRepository.save(usuario);
         URI uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuario(usuario));
@@ -68,7 +68,7 @@ public class UsuarioController {
     public ResponseEntity<DadosDetalhamentoUsuario> atualizarPerfil (
             @RequestBody @Valid DadosAtualizacaoPerfilUsuario dados
     ) {
-        Usuario usuario = getUsuario(dados.id());
+        UsuarioEntity usuario = getUsuario(dados.id());
         usuario.atualizarPerfil(dados);
         usuarioJpaRepository.save(usuario);
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
@@ -80,7 +80,7 @@ public class UsuarioController {
     public ResponseEntity<String> atualizarSenha (
             @RequestBody @Valid DadosAtualizacaoSenhaUsuario dados
     ) {
-        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UsuarioEntity usuario = (UsuarioEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(!passwordEncoder.matches(dados.senhaAtual(), usuario.getSenha())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Senha incorreta");
@@ -94,7 +94,7 @@ public class UsuarioController {
     @Transactional
     @DeleteMapping("/apagar-usuario/{id}")
     public ResponseEntity<Void> apagarUsuario (@PathVariable Long id) {
-        Usuario usuario = getUsuario(id);
+        UsuarioEntity usuario = getUsuario(id);
         usuario.apagar();
         usuarioJpaRepository.save(usuario);
         return ResponseEntity.noContent().build();
@@ -102,13 +102,13 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoUsuario> detalharUsuario (@PathVariable Long id) {
-        Usuario usuario = usuarioJpaRepository.findById(id)
+        UsuarioEntity usuario = usuarioJpaRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNaoExisteException("Usuário não encontrado"));
 
         return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
     }
 
-    private Usuario getUsuario(Long id) {
+    private UsuarioEntity getUsuario(Long id) {
         return usuarioJpaRepository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new UsuarioNaoExisteException("Usuário não encontrado ou inativo"));
     }
