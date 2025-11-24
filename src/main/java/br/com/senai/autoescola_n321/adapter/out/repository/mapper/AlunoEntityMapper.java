@@ -1,34 +1,32 @@
 package br.com.senai.autoescola_n321.adapter.out.repository.mapper;
 
-import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrutorEntity;
-import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.AlunoEntity;
+import br.com.senai.autoescola_n321.application.core.domain.model.Aluno;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstrutorEntityMapper {
+public class AlunoEntityMapper {
 
-    public InstrutorEntity toEntity(Instrutor domain) {
-        return new InstrutorEntity (
+    public AlunoEntity toDomain(Aluno domain) {
+        return new AlunoEntity(
                 domain.getId(),
                 domain.getAtivo(),
                 domain.getNome(),
                 domain.getEmail(),
                 domain.getTelefone(),
-                domain.getCnh(),
-                domain.getEspecialidade(),
+                domain.getCpf(),
                 domain.getEndereco()
         );
     }
 
-    public InstrutorEntity toDomain(InstrutorEntity entity) {
-        return new InstrutorEntity (
+    public Aluno toEntity(AlunoEntity entity) {
+        return new Aluno(
                 entity.getId(),
                 entity.getAtivo(),
                 entity.getNome(),
                 entity.getEmail(),
                 entity.getTelefone(),
-                entity.getCnh(),
-                entity.getEspecialidade(),
+                entity.getCpf(),
                 entity.getEndereco()
         );
     }
