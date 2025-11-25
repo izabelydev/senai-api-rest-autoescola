@@ -9,7 +9,6 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosListagemInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.mapper.InstrutorMapper;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrutorEntity;
-import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
 import br.com.senai.autoescola_n321.application.ports.out.InstrutorRepository;
 import br.com.senai.autoescola_n321.exception.types.business.EspecialidadeNaoInformadaException;
 import br.com.senai.autoescola_n321.exception.types.business.InstrutorIndisponivelException;

@@ -3,14 +3,14 @@ package br.com.senai.autoescola_n321.adapter.in.controller;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosAtualizacaoPerfilUsuario;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosAtualizacaoSenhaUsuario;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosCadastramentoUsuario;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario.DadosDetalhamentoUsuario;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.UsuarioEntity;
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.UsuarioJpaRepository;
+import br.com.senai.autoescola_n321.application.core.usecase.UsuarioService;
 import br.com.senai.autoescola_n321.exception.types.business.UsuarioNaoExisteException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -38,19 +38,15 @@ import java.net.URI;
 public class UsuarioController {
 
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UsuarioService usuarioService;
 
-    @Autowired
-    private UsuarioJpaRepository usuarioJpaRepository;
-
-    @Transactional
     @PostMapping("/cadastrar")
     public ResponseEntity<DadosDetalhamentoUsuario> cadastrarUsuario(
             @RequestBody @Valid DadosCadastramentoUsuario dados,
             UriComponentsBuilder uriBuilder
     ) {
-        UsuarioEntity usuario = new UsuarioEntity(dados, passwordEncoder);
-        usuarioJpaRepository.save(usuario);
-        URI uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
+        DadosDetalhamentoInstrucao dto = usuarioService.cadastrar(dados);
+        URI uri = uriBuilder.path("/usuario/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuario(usuario));
     }
 

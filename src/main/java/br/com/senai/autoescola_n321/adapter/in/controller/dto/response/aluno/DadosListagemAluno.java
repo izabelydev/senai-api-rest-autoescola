@@ -1,7 +1,6 @@
 package br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno;
 
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.AlunoEntity;
-import br.com.senai.autoescola_n321.application.core.domain.model.Aluno;
 
 public record DadosListagemAluno(
 		Long id,

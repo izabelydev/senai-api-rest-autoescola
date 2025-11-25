@@ -4,6 +4,7 @@ import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrutorEntit
 import br.com.senai.autoescola_n321.adapter.out.repository.mapper.InstrutorEntityMapper;
 import br.com.senai.autoescola_n321.adapter.out.repository.persistence.InstrutorJpaRepository;
 import br.com.senai.autoescola_n321.application.core.domain.enums.Especialidade;
+import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
 import br.com.senai.autoescola_n321.application.ports.out.InstrutorRepository;
 import br.com.senai.autoescola_n321.exception.types.business.InstrutorIndisponivelException;
 import br.com.senai.autoescola_n321.exception.types.business.InstrutorNaoExisteException;
@@ -43,7 +44,7 @@ public class InstrutorRepositoryImpl implements InstrutorRepository {
     }
 
     @Override
-    public InstrutorEntity save(InstrutorEntity instrutor) {
+    public Instrutor save(InstrutorEntity instrutor) {
         return mapper.toDomain(repository.save(instrutor));
     }
 

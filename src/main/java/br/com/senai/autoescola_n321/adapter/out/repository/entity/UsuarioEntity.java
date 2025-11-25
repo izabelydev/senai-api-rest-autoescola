@@ -1,10 +1,5 @@
 package br.com.senai.autoescola_n321.adapter.out.repository.entity;
 
-import static java.util.Objects.isNull;
-
-import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosAtualizacaoPerfilUsuario;
-import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosAtualizacaoSenhaUsuario;
-import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.application.core.domain.enums.Perfil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,15 +9,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,21 +37,17 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "usu_lg")
     private String login;
 
+    @Setter
     @Column(name = "usu_sn")
     private String senha;
 
-    @Column(name = "usu_pfl", nullable = false)
+    @Setter
     @Enumerated(EnumType.STRING)
+    @Column(name = "usu_pfl", nullable = false)
     private Perfil perfil;
 
     @Column(name = "usu_atv")
     private Boolean ativo;
-
-    public UsuarioEntity(DadosCadastramentoUsuario dados, BCryptPasswordEncoder passwordEncoder) {
-        this.login = dados.login();
-        this.senha = passwordEncoder.encode(dados.senha());
-        this.perfil = dados.perfil() != null ? dados.perfil() : Perfil.USER;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -92,21 +82,5 @@ public class UsuarioEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public void atualizarPerfil(@Valid DadosAtualizacaoPerfilUsuario dados) {
-        if(!isNull(dados.perfil())) {
-            this.perfil = dados.perfil();
-        }
-    }
-
-    public void atualizarSenha(@Valid DadosAtualizacaoSenhaUsuario dados, BCryptPasswordEncoder passwordEncoder) {
-        if(!isNull(dados.novaSenha())) {
-            this.senha = passwordEncoder.encode(dados.novaSenha());
-        }
-    }
-
-    public void apagar() {
-        this.ativo = false;
     }
 }

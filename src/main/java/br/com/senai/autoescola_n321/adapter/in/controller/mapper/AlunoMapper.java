@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.aluno.DadosAtualizacaoAluno;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.aluno.DadosCadastroAluno;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno.DadosDetalhamentoAluno;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno.DadosListagemAluno;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.AlunoEntity;
 import org.springframework.stereotype.Component;
@@ -29,12 +30,24 @@ public class AlunoMapper {
         );
     }
 
-    public DadosListagemAluno toDto(AlunoEntity dados) {
-        return new DadosListagemAluno(
+    public DadosDetalhamentoAluno toDetailsDto(AlunoEntity dados) {
+        return new DadosDetalhamentoAluno(
                 dados.getId(),
+                dados.getAtivo(),
                 dados.getNome(),
+                dados.getEmail(),
+                dados.getTelefone(),
                 dados.getCpf(),
-                dados.getEmail()
+                mapper.toDto(dados.getEndereco())
+        );
+    }
+
+    public DadosListagemAluno toListDto(AlunoEntity entity) {
+        return new DadosListagemAluno(
+                entity.getId(),
+                entity.getNome(),
+                entity.getCpf(),
+                entity.getEmail()
         );
     }
 

@@ -16,7 +16,7 @@ public interface InstrutorRepository {
 
     Optional<InstrutorEntity> escolherInstrutorDisponivel(Especialidade especialidade, LocalDateTime data);
 
-    InstrutorEntity save(InstrutorEntity instrutor);
+    Instrutor save(InstrutorEntity instrutor);
 
     Optional<InstrutorEntity> findById(Long id);
 }

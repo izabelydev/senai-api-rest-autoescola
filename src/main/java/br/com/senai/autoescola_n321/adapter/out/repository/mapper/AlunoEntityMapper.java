@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlunoEntityMapper {
 
-    public AlunoEntity toDomain(Aluno domain) {
+    public AlunoEntity toDomain(AlunoEntity domain) {
         return new AlunoEntity(
                 domain.getId(),
                 domain.getAtivo(),

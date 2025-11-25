@@ -27,6 +27,7 @@ public class AlunoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(name = "alu_atv")
     private Boolean ativo;
 

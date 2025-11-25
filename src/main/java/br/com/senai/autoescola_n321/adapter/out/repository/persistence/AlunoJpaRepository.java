@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface AlunoJpaRepository extends JpaRepository<AlunoEntity, Long> {
     Page<AlunoEntity> findAllByAtivoTrue(Pageable paginacao);
 
-    Optional<AlunoEntity> findAllByIdAndAtivoTrue(Long id);
+    Optional<AlunoEntity> findByIdAndAtivoTrue(Long id);
 
     Boolean existsByIdAndAtivoTrue(Long aLong);
 }
