@@ -46,6 +46,7 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "usu_pfl", nullable = false)
     private Perfil perfil;
 
+    @Setter
     @Column(name = "usu_atv")
     private Boolean ativo;
 

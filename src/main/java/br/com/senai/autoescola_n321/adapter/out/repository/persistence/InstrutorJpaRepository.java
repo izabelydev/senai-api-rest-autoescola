@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface InstrutorJpaRepository extends JpaRepository<InstrutorEntity, Long> {
     Page<InstrutorEntity> findAllByAtivoTrue(Pageable paginacao);
 
-    Optional<InstrutorEntity> findByIdAndAtivoTrue(Long id);
+    Optional<Instrutor> findByIdAndAtivoTrue(Long id);
 
     @Query("""
             SELECT i FROM Instrutor i

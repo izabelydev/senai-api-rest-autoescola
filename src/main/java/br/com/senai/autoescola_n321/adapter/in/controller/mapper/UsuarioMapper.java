@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
-    public UsuarioEntity toEntity(DadosCadastramentoUsuario dados) {
+    public UsuarioEntity toEntity(DadosCadastramentoUsuario dados, BCryptPasswordEncoder passwordEncoder) {
         return new UsuarioEntity(
                null,
                 dados.login(),
-                dados.senha(),
+                passwordEncoder.encode(dados.senha()),
                 dados.perfil(),
                 null
         );

@@ -27,13 +27,13 @@ public class InstrutorRepositoryImpl implements InstrutorRepository {
     }
 
     @Override
-    public Page<InstrutorEntity> findAllByAtivoTrue(Pageable paginacao) {
+    public Page<Instrutor> findAllByAtivoTrue(Pageable paginacao) {
         return repository.findAllByAtivoTrue(paginacao).map(mapper::toDomain);
     }
 
     @Override
-    public Optional<InstrutorEntity> findByIdAndAtivoTrue(Long id) {
-        return repository.findByIdAndAtivoTrue(id).map(mapper::toDomain);
+    public Optional<Instrutor> findByIdAndAtivoTrue(Long id) {
+        return repository.findByIdAndAtivoTrue(id);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class InstrutorRepositoryImpl implements InstrutorRepository {
 
     @Override
     public Optional<InstrutorEntity> findById(Long id) {
-        return Optional.ofNullable(repository.findById(id).map(mapper::toDomain)
+        return Optional.ofNullable(repository.findById(id)
                 .orElseThrow(() -> new InstrutorNaoExisteException("Instrutor não existe.")));
     }
 }

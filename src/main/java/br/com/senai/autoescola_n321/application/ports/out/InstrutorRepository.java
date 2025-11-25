@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface InstrutorRepository {
-    Page<InstrutorEntity> findAllByAtivoTrue(Pageable paginacao);
+    Page<Instrutor> findAllByAtivoTrue(Pageable paginacao);
 
-    Optional<InstrutorEntity> findByIdAndAtivoTrue(Long id);
+    Optional<Instrutor> findByIdAndAtivoTrue(Long id);
 
     Optional<InstrutorEntity> escolherInstrutorDisponivel(Especialidade especialidade, LocalDateTime data);
 

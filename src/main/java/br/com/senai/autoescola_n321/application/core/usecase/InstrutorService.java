@@ -76,7 +76,7 @@ public class InstrutorService {
     }
 
     public InstrutorEntity getInstrutor(Long id) {
-        return instrutorRepository.findByIdAndAtivoTrue(id)
+        return instrutorRepository.findByIdAndAtivoTrue(id).map(instrutorMapper::domainToEntity)
                 .orElseThrow(() -> new InstrutorNaoExisteException("Instrutor não encontrado ou inativo"));
     }
 }

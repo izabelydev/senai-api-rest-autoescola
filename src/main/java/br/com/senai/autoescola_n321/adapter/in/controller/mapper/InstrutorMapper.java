@@ -33,6 +33,19 @@ public class InstrutorMapper {
         );
     }
 
+    public InstrutorEntity domainToEntity(Instrutor dados) {
+        return new InstrutorEntity (
+                dados.getId(),
+                dados.getAtivo(),
+                dados.getNome(),
+                dados.getEmail(),
+                dados.getTelefone(),
+                dados.getCnh(),
+                dados.getEspecialidade(),
+                dados.getEndereco()
+        );
+    }
+
     public DadosDetalhamentoInstrutor toDetailsDto(InstrutorEntity dados) {
         return new DadosDetalhamentoInstrutor(
                 dados.getId(),
@@ -46,7 +59,7 @@ public class InstrutorMapper {
         );
     }
 
-    public DadosListagemInstrutor toListDto(InstrutorEntity dados) {
+    public DadosListagemInstrutor toListDto(Instrutor dados) {
         return new DadosListagemInstrutor(
                 dados.getId(),
                 dados.getNome(),
