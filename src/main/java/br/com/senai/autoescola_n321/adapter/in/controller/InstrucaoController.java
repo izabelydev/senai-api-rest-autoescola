@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/instrucao")
 public class InstrucaoController {
 
-    @Autowired
     private AgendaInstrucoesService agendaInstrucoesService;
 
     @Transactional

@@ -2,19 +2,18 @@ package br.com.senai.autoescola_n321.application.core.usecase;
 
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosAgendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosCancelamentoInstrucao;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosReagendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoCancelamento;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoReagendamento;
-import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosReagendamentoInstrucao;
-import br.com.senai.autoescola_n321.application.core.domain.model.Instrucao;
-import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.AlunoRepository;
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.InstrucaoRepository;
-import br.com.senai.autoescola_n321.exception.types.business.AlunoNaoExisteException;
-import br.com.senai.autoescola_n321.exception.types.business.InstrucaoNaoExisteException;
-import br.com.senai.autoescola_n321.exception.types.business.InstrutorIndisponivelException;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrucaoEntity;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrutorEntity;
 import br.com.senai.autoescola_n321.application.core.validations.instrucao.agendamento.ValidacoesAgendamento;
 import br.com.senai.autoescola_n321.application.core.validations.instrucao.cancelamento.ValidacoesCancelamento;
+import br.com.senai.autoescola_n321.application.ports.out.AlunoRepository;
+import br.com.senai.autoescola_n321.application.ports.out.InstrucaoRepository;
+import br.com.senai.autoescola_n321.exception.types.business.AlunoNaoExisteException;
+import br.com.senai.autoescola_n321.exception.types.business.InstrucaoNaoExisteException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,14 +54,11 @@ public class AgendaInstrucoesService {
             throw new AlunoNaoExisteException("Aluno não existe ou é inativo.");
         }
 
-        Instrutor instrutor = instrutorService.escolherInstrutor(dados).orElseThrow(
-                () -> new InstrutorIndisponivelException("Nenhum instrutor com horário disponível para a data: "
-                                                         + dados.data().toString())
-        );
+        InstrutorEntity instrutor = instrutorService.escolherInstrutor(dados);
 
         validacoesAgendamentos.forEach(v -> v.validar(dados));
 
-        Instrucao instrucao = new Instrucao (
+        InstrucaoEntity instrucao = new InstrucaoEntity (
                 null,
                 dados.data(),
                 null,
@@ -78,7 +74,7 @@ public class AgendaInstrucoesService {
     }
 
     public DadosDetalhamentoCancelamento cancelar(DadosCancelamentoInstrucao dados) {
-        Instrucao instrucao = instrucaoRepository.findByIdAndCanceladaFalse(dados.id())
+        InstrucaoEntity instrucao = instrucaoRepository.findByIdAndCanceladaFalse(dados.id())
                 .orElseThrow(() -> new InstrucaoNaoExisteException("Nenhuma instrução encontrada."));
 
         validacoesCancelamentos.forEach(v -> v.validar(instrucao));
@@ -96,6 +92,7 @@ public class AgendaInstrucoesService {
     }
 
     public Page<DadosDetalhamentoInstrucao> listar(Pageable paginacao) {
-        return instrucaoRepository.findAllByCanceladaFalse(paginacao).map(DadosDetalhamentoInstrucao::new);
+        return null;
+// TODO        return instrucaoRepository.findAllByCanceladaFalse(paginacao).map(DadosDetalhamentoInstrucao::new);
     }
 }

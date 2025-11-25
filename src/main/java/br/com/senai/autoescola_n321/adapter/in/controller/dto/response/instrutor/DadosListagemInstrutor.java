@@ -9,14 +9,4 @@ public record DadosListagemInstrutor(
 		String cnh,
 		String email,
 		Especialidade especialidade
-) {
-	public DadosListagemInstrutor(Instrutor instrutor) {
-		this(
-				instrutor.getId(),
-				instrutor.getNome(),
-				instrutor.getCnh(),
-				instrutor.getEmail(),
-				instrutor.getEspecialidade()
-		);
-	}
-}
+) {}

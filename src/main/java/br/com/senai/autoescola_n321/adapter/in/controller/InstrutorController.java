@@ -4,13 +4,8 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.DadosCadastroInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosDetalhamentoInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosListagemInstrutor;
-import br.com.senai.autoescola_n321.application.core.domain.model.Instrutor;
-import br.com.senai.autoescola_n321.adapter.out.repository.persistence.InstrutorRepository;
 import br.com.senai.autoescola_n321.application.core.usecase.InstrutorService;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -31,57 +26,43 @@ import java.net.URI;
 @RequestMapping("/instrutores")
 public class InstrutorController {
 
-    @Autowired
-    private InstrutorService instrutorService;
+    private final InstrutorService instrutorService;
 
-    @Autowired
-    private InstrutorRepository instrutorRepository;
+    public InstrutorController(InstrutorService instrutorService) {
+        this.instrutorService = instrutorService;
+    }
 
-    @Transactional
     @PostMapping("/cadastrar")
     public ResponseEntity<DadosDetalhamentoInstrutor> cadastrarInstrutor(
             @RequestBody @Valid DadosCadastroInstrutor dados,
             UriComponentsBuilder uriBuilder
     ) {
-        Instrutor instrutor = new Instrutor(dados);
-        instrutorRepository.save(instrutor);
-        URI uri = uriBuilder.path("/instrutores/instrutor/{id}").buildAndExpand(instrutor.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DadosDetalhamentoInstrutor(instrutor));
+        DadosDetalhamentoInstrutor dto = instrutorService.cadastrar(dados);
+        URI uri = uriBuilder.path("/instrutores/instrutor/{id}").buildAndExpand(dto.id()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
     @GetMapping("/listar-instrutores")
     public ResponseEntity<Page<DadosListagemInstrutor>> listarInstrutores(
             @PageableDefault(size=5, sort={"nome"}) Pageable paginacao
     ) {
-        Page<DadosListagemInstrutor> page = instrutorRepository.findAllByAtivoTrue(paginacao)
-                                            .map(DadosListagemInstrutor::new);
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(instrutorService.listar(paginacao));
     }
 
-    @Transactional
     @PutMapping("/atualizar-cadastro")
     public ResponseEntity<DadosDetalhamentoInstrutor> atualizarInstrutor (
             @RequestBody @Valid DadosAtualizacaoInstrutor dados
     ) {
-        Instrutor instrutor = instrutorService.getInstrutor(dados.id());
-        instrutor.atualizarInformacoes(dados);
-        instrutorRepository.save(instrutor);
-        return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
+        return ResponseEntity.ok(instrutorService.atualizar(dados));
     }
 
-    @Transactional
     @DeleteMapping("/apagar-instrutor/{id}")
-    public ResponseEntity<Void> apagarInstrutor(@PathVariable Long id) {
-        Instrutor instrutor = instrutorService.getInstrutor(id);
-        instrutor.apagar();
-        instrutorRepository.save(instrutor);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<DadosDetalhamentoInstrutor> apagarInstrutor(@PathVariable Long id) {
+        return ResponseEntity.ok().body(instrutorService.apagar(id));
     }
 
     @GetMapping("/instrutor/{id}")
     public ResponseEntity<DadosDetalhamentoInstrutor> detalharInstrutor(@PathVariable Long id) {
-        Instrutor instrutor = instrutorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado"));
-        return ResponseEntity.ok(new DadosDetalhamentoInstrutor(instrutor));
+        return ResponseEntity.ok(instrutorService.detalhar(id));
     }
 }

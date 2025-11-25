@@ -1,5 +1,6 @@
 package br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario;
 
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.UsuarioEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
 import br.com.senai.autoescola_n321.application.core.domain.enums.Perfil;
 
@@ -9,7 +10,7 @@ public record DadosDetalhamentoUsuario(
         String login,
         Perfil perfil
 ) {
-    public DadosDetalhamentoUsuario(Usuario usuario) {
+    public DadosDetalhamentoUsuario(UsuarioEntity usuario) {
         this(
                 usuario.getId(),
                 usuario.getAtivo(),

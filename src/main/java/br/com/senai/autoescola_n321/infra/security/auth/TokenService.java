@@ -1,5 +1,6 @@
 package br.com.senai.autoescola_n321.infra.security.auth;
 
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.UsuarioEntity;
 import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -22,7 +23,7 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(UsuarioEntity usuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()

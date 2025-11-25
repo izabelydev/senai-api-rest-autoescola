@@ -1,6 +1,6 @@
 package br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno;
 
-import br.com.senai.autoescola_n321.application.core.domain.model.Aluno;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.AlunoEntity;
 
 public record DadosListagemAluno(
 		Long id,
@@ -8,7 +8,7 @@ public record DadosListagemAluno(
 		String cpf,
 		String email
 ) {
-	public DadosListagemAluno(Aluno aluno) {
+	public DadosListagemAluno(AlunoEntity aluno) {
 		this(
 				aluno.getId(),
 				aluno.getNome(),
