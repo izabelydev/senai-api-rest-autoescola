@@ -7,10 +7,12 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario.D
 import br.com.senai.autoescola_n321.adapter.in.controller.mapper.UsuarioMapper;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.UsuarioEntity;
 import br.com.senai.autoescola_n321.application.ports.out.UsuarioRepository;
+import br.com.senai.autoescola_n321.exception.types.business.SenhaIncorretaException;
 import br.com.senai.autoescola_n321.exception.types.business.UsuarioNaoExisteException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +50,11 @@ public class UsuarioService {
 
     @Transactional
     public void atualizarSenha(DadosAtualizacaoSenhaUsuario dados) {
-        UsuarioEntity usuario = getUsuario(dados.id());
+        UsuarioEntity usuario = (UsuarioEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        if(!passwordEncoder.matches(dados.senhaAtual(), usuario.getSenha())) {
+            throw new SenhaIncorretaException("Senha atual incorreta.");
+        }
         usuarioMapper.atualizarSenhaDtoToEntity(dados, passwordEncoder, usuario);
         usuarioRepository.save(usuario);
     }
