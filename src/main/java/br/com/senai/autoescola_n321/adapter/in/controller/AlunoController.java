@@ -5,8 +5,10 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.aluno.Dado
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno.DadosDetalhamentoAluno;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.aluno.DadosListagemAluno;
 import br.com.senai.autoescola_n321.application.core.usecase.AlunoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,6 +27,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/alunos")
+@SecurityRequirement(name = "bearer-key")
 public class AlunoController {
 
    private final AlunoService alunoService;
@@ -43,9 +46,10 @@ public class AlunoController {
         return ResponseEntity.created(uri).body(dto);
     }
 
+
     @GetMapping("/listar-alunos")
     public ResponseEntity<Page<DadosListagemAluno>> listarAlunos(
-            @PageableDefault(size=5, sort={"nome"}) Pageable paginacao
+            @ParameterObject @PageableDefault(size=5, sort={"nome"}) Pageable paginacao
     ) {
         return ResponseEntity.ok(alunoService.listar(paginacao));
     }
