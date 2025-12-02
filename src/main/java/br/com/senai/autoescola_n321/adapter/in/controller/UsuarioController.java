@@ -5,8 +5,10 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.Da
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario.DadosDetalhamentoUsuario;
 import br.com.senai.autoescola_n321.application.core.usecase.UsuarioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -29,6 +31,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/usuario")
 @PreAuthorize("hasAnyRole('OWNER', 'ADM')")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -46,7 +49,7 @@ public class UsuarioController {
 
     @GetMapping("/listar-usuarios")
     public ResponseEntity<Page<DadosDetalhamentoUsuario>> listarUsuarios (
-            @PageableDefault(size=5, sort={"login"}) Pageable paginacao
+            @ParameterObject @PageableDefault(size=5, sort={"login"}) Pageable paginacao
     ) {
         return ResponseEntity.ok(usuarioService.listar(paginacao));
     }

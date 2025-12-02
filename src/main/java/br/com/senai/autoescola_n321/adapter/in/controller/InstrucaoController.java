@@ -2,14 +2,15 @@ package br.com.senai.autoescola_n321.adapter.in.controller;
 
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosAgendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosCancelamentoInstrucao;
+import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosReagendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoCancelamento;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoReagendamento;
-import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosReagendamentoInstrucao;
 import br.com.senai.autoescola_n321.application.core.usecase.AgendaInstrucoesService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,9 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/instrucao")
+@SecurityRequirement(name = "bearer-key")
 public class InstrucaoController {
 
-    private AgendaInstrucoesService agendaInstrucoesService;
+    private final AgendaInstrucoesService agendaInstrucoesService;
+
+    public InstrucaoController(AgendaInstrucoesService agendaInstrucoesService) {
+        this.agendaInstrucoesService = agendaInstrucoesService;
+    }
 
     @Transactional
     @PostMapping("/agendar")
@@ -54,7 +60,7 @@ public class InstrucaoController {
 
     @GetMapping("/ver-instrucoes")
     public ResponseEntity<Page<DadosDetalhamentoInstrucao>> listarInstrucoes(
-            @PageableDefault(size=5, sort={"data"}) Pageable paginacao
+            @ParameterObject @PageableDefault(size=5, sort={"data"}) Pageable paginacao
     ) {
         return ResponseEntity.ok(agendaInstrucoesService.listar(paginacao));
     }

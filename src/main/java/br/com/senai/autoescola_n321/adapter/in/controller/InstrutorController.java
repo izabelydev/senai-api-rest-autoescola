@@ -5,7 +5,9 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrutor.
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosDetalhamentoInstrutor;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrutor.DadosListagemInstrutor;
 import br.com.senai.autoescola_n321.application.core.usecase.InstrutorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,6 +26,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/instrutores")
+@SecurityRequirement(name = "bearer-key")
 public class InstrutorController {
 
     private final InstrutorService instrutorService;
@@ -44,7 +47,7 @@ public class InstrutorController {
 
     @GetMapping("/listar-instrutores")
     public ResponseEntity<Page<DadosListagemInstrutor>> listarInstrutores(
-            @PageableDefault(size=5, sort={"nome"}) Pageable paginacao
+            @ParameterObject @PageableDefault(size=5, sort={"nome"}) Pageable paginacao
     ) {
         return ResponseEntity.ok(instrutorService.listar(paginacao));
     }
