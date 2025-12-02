@@ -7,7 +7,6 @@ import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.Da
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.usuario.DadosCadastramentoUsuario;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.usuario.DadosDetalhamentoUsuario;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.UsuarioEntity;
-import br.com.senai.autoescola_n321.application.core.domain.model.Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
