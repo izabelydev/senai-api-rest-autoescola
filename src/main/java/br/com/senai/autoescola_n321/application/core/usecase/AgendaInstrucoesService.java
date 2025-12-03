@@ -1,13 +1,19 @@
 package br.com.senai.autoescola_n321.application.core.usecase;
 
+import static br.com.senai.autoescola_n321.application.core.service.AcaoEmailEnum.AGENDAMENTO;
+import static br.com.senai.autoescola_n321.application.core.service.AcaoEmailEnum.CANCELAMENTO;
+
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosAgendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosCancelamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.request.instrucao.DadosReagendamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoCancelamento;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoInstrucao;
 import br.com.senai.autoescola_n321.adapter.in.controller.dto.response.instrucao.DadosDetalhamentoReagendamento;
+import br.com.senai.autoescola_n321.adapter.out.repository.entity.AlunoEntity;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrucaoEntity;
 import br.com.senai.autoescola_n321.adapter.out.repository.entity.InstrutorEntity;
+import br.com.senai.autoescola_n321.adapter.out.repository.mapper.InstrucaoEntityMapper;
+import br.com.senai.autoescola_n321.application.core.service.EmailNotificationService;
 import br.com.senai.autoescola_n321.application.core.validations.instrucao.agendamento.ValidacoesAgendamento;
 import br.com.senai.autoescola_n321.application.core.validations.instrucao.cancelamento.ValidacoesCancelamento;
 import br.com.senai.autoescola_n321.application.ports.out.AlunoRepository;
@@ -30,6 +36,8 @@ public class AgendaInstrucoesService {
     private final InstrucaoRepository instrucaoRepository;
     private final List<ValidacoesAgendamento> validacoesAgendamentos;
     private final List<ValidacoesCancelamento> validacoesCancelamentos;
+    private final EmailNotificationService emailNotificationService;
+    private final InstrucaoEntityMapper instrucaoEntityMapper;
 
     public AgendaInstrucoesService(
             InstrutorService instrutorService,
@@ -37,7 +45,7 @@ public class AgendaInstrucoesService {
             AlunoRepository alunoRepository,
             InstrucaoRepository instrucaoRepository,
             List<ValidacoesAgendamento> validacoesAgendamentos,
-            List<ValidacoesCancelamento> validacoesCancelamentos
+            List<ValidacoesCancelamento> validacoesCancelamentos, EmailNotificationService emailNotificationService, InstrucaoEntityMapper instrucaoEntityMapper
     ) {
         this.instrutorService = instrutorService;
         this.alunoService = alunoService;
@@ -45,33 +53,28 @@ public class AgendaInstrucoesService {
         this.instrucaoRepository = instrucaoRepository;
         this.validacoesAgendamentos = validacoesAgendamentos;
         this.validacoesCancelamentos = validacoesCancelamentos;
+        this.emailNotificationService = emailNotificationService;
+        this.instrucaoEntityMapper = instrucaoEntityMapper;
     }
 
     @Transactional
     public DadosDetalhamentoInstrucao agendar(DadosAgendamentoInstrucao dados) {
-
         if(!alunoRepository.existsByIdAndAtivoTrue(dados.idAluno())) {
             throw new AlunoNaoExisteException("Aluno não existe ou é inativo.");
         }
 
         InstrutorEntity instrutor = instrutorService.escolherInstrutor(dados);
+        AlunoEntity aluno = alunoService.getAluno(dados.idAluno());
 
         validacoesAgendamentos.forEach(v -> v.validar(dados));
 
-        // TODO
-        InstrucaoEntity instrucao = new InstrucaoEntity (
-                null,
-                dados.data(),
-                null,
-                false,
-                null,
-                alunoService.getAluno(dados.idAluno()),
-                instrutor
-        );
+        InstrucaoEntity instrucaoEntity = instrucaoEntityMapper.dtoToEntity(dados, aluno, instrutor);
 
-        instrucaoRepository.save(instrucao);
+        instrucaoRepository.save(instrucaoEntity);
 
-        return new DadosDetalhamentoInstrucao(instrucao);
+        emailNotificationService.enviarNotificacao(instrucaoEntityMapper.toDomain(instrucaoEntity), AGENDAMENTO);
+
+        return new DadosDetalhamentoInstrucao(instrucaoEntity);
     }
 
     public DadosDetalhamentoCancelamento cancelar(DadosCancelamentoInstrucao dados) {
@@ -82,7 +85,7 @@ public class AgendaInstrucoesService {
 
         instrucao.cancelar(dados);
         instrucaoRepository.save(instrucao);
-
+        emailNotificationService.enviarNotificacao(instrucaoEntityMapper.toDomain(instrucao), CANCELAMENTO);
         return new DadosDetalhamentoCancelamento(instrucao);
     }
 
@@ -94,6 +97,6 @@ public class AgendaInstrucoesService {
 
     public Page<DadosDetalhamentoInstrucao> listar(Pageable paginacao) {
         return null;
-// TODO        return instrucaoRepository.findAllByCanceladaFalse(paginacao).map(DadosDetalhamentoInstrucao::new);
+        // TODO return instrucaoRepository.findAllByCanceladaFalse(paginacao).map(DadosDetalhamentoInstrucao::new);
     }
 }

@@ -16,6 +16,7 @@ public class ViaCepController {
 
     private final ViaCepService viaCepService;
 
+    // TODO remover ViaCep
     public ViaCepController(ViaCepService viaCepService) {
         this.viaCepService = viaCepService;
     }
