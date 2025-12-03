@@ -26,7 +26,6 @@ public class SMTPEmailSenderImpl implements EmailSender {
             mailSender.send(message);
         } catch (Exception e) {
             log.error("Erro ao enviar e-mail para {} - {}", destinatario, e.getMessage());
-            throw new RuntimeException(e);
         }
     }
 }

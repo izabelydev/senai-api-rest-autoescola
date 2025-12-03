@@ -1,10 +1,23 @@
+### Build ###
 HELP.md
 target/
+build/
+tmp/
+*.tmp
+
+### Maven ###
+.mvn/wrapper/maven-wrapper.properties
+.mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### Logs ###
+*.log
+logs/
+spring.log
+
+### Eclipse / STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -18,6 +31,7 @@ target/
 *.iws
 *.iml
 *.ipr
+out/
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +45,22 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Arquivos sensiveis ###
+.env
+*.env
+*.key
+*.pem
+*.crt
+*.p12
+
+### Windows ###
+thumbs.db
+Desktop.ini
+
+### MaC ###
+.DS_Store
+
+### Docker ###
+**/db_data/
+docker-volume/
