@@ -5,10 +5,10 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      DBN_NAME: ${DBN_NAME}
-      DBN_URL: ${DBN_URL}
-      DBN_USER: ${DBN_USER}
-      DBN_PASSWORD: ${DBN_PASSWORD}
+      MYSQL_USER: ${DBN_USER}
+      MYSQL_PASSWORD: ${DBN_PASSWORD}
+      MYSQL_DATABASE: ${DBN_NAME}
+      MYSQL_ROOT_PASSWORD: ${DBN_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -16,7 +16,7 @@ services:
     networks:
       - autoescolaN321-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DBN_USER}", "p${DBN_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DBN_USER}", "-p${DBN_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -50,8 +50,10 @@ services:
     ports:
       - "8085:8085"
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       JWT_SECRET: ${JWT_SECRET}
       ENVIRONMENT: ${ENVIRONMENT}
+      DBN_URL: ${DBN_URL}
       DBN_USER: ${DBN_USER}
       DBN_PASSWORD: ${DBN_PASSWORD}
       DBN_NAME: ${DBN_NAME}

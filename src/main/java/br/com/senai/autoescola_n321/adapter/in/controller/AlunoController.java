@@ -36,6 +36,7 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
+    // todo ADICIONAR PORTA DE ENTRADA
     @PostMapping("/cadastrar")
     public ResponseEntity<DadosDetalhamentoAluno> cadastrarAluno(
             @RequestBody @Valid DadosCadastroAluno dados,
